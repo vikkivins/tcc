@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="ideia-container">
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% else %}
+
+    <div class="ideia-actions">
+        <a href="{{ url_for('ideias.edit_ideia', ideia_id=ideia.id) }}" class="btn-edit">Editar</a>
+        <form action="{{ url_for('ideias.delete_ideia', ideia_id=ideia.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta ideia?');">
+            <button type="submit" class="btn-delete">Excluir</button>
+        </form>
+    </div>
+        <h2>{{ ideia.tituloideia }}</h2>
+        <p>{{ ideia.conteudoideia }}</p>
+        {% if ideia.datacriacao %}
+            <small>Criado em: {{ ideia.datacriacao }}</small>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

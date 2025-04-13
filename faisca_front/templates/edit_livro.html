@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="edit-container">
+    <h2>Editar Livro</h2>
+    
+    {% if error %}
+        <div class="alert alert-danger">
+            <strong>Erro:</strong> {{ error }}
+            {% if error|length > 100 %}
+                <details>
+                    <summary>Detalhes</summary>
+                    <pre>{{ error }}</pre>
+                </details>
+            {% endif %}
+        </div>
+    {% endif %}
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulolivro" value="{{ livro.titulolivro }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricaolivro" required>{{ livro.descricaolivro }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="capa">Alterar Capa (opcional):</label>
+            <input type="file" id="capa" name="capalivro" accept="image/*">
+            {% if livro.capalivro %}
+                <p class="current-cover">
+                    <span>Capa atual:</span>
+                    <img src="{{ livro.capalivro }}" alt="Capa atual" style="max-width: 200px; display: block; margin-top: 10px;">
+                    <a href="{{ livro.capalivro }}" target="_blank" style="display: inline-block; margin-top: 5px;">Visualizar em tamanho real</a>
+                </p>
+            {% endif %}
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-save">Salvar Alterações</button>
+            <a href="{{ url_for('home.home') }}" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

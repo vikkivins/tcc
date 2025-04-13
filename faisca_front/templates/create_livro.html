@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="create-container">
+    <h2>Criar Novo Livro</h2>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" required>
+        </div>
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="capa">Capa (opcional):</label>
+            <input type="file" id="capa" name="capa" accept="image/*">
+        </div>
+        <button type="submit">Criar Livro</button>
+        <a href="{{ url_for('home.home') }}" class="btn-cancel">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

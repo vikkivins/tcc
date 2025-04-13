@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home-container">
+    <h2>Bem-vindo, {{ username }}!</h2>
+    <h3>Meus Livros</h3>
+    
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    
+    <a href="{{ url_for('livros.create_livro') }}" class="btn-create">Criar Novo Livro</a>
+    
+    <div class="livros-grid">
+        {% if livros %}
+            {% for livro in livros %}
+            <a href="{{ url_for('livros.visualizar_livro', livro_id=livro.id) }}" class="livro-link">
+                <div class="livro-card">
+                    <h3>{{ livro.titulolivro }}</h3>
+                    <p>{{ livro.descricaolivro }}</p>
+                    {% if livro.datacriacao %}
+                        <small>Criado em: {{ livro.datacriacao }}</small>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        {% else %}
+            <p>Nenhum livro encontrado. Crie seu primeiro livro!</p>
+        {% endif %}
+    </div>
+
+    <h3>Minhas Ideias</h3>
+
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <a href="{{ url_for('ideias.create_ideia') }}" class="btn-create">Criar Nova Ideia</a>
+
+    <div class="livros-grid">
+        {% if ideias %}
+            {% for ideia in ideias %}
+            <a href="{{ url_for('ideias.visualizar_ideia', ideia_id=ideia.id) }}" class="livro-link">
+            <div class="livro-card">
+                <h3>{{ ideia.tituloideia }}</h3>
+                <p>{{ ideia.conteudoideia }}</p>
+                {% if ideia.datacriacao %}
+                    <small>Criado em: {{ ideia.datacriacao }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhuma ideia encontrada. Crie sua primeira ideia!</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

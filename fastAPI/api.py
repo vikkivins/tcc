@@ -1,0 +1,17 @@
+from fastapi import FastAPI
+from database import engine
+from model import Base
+
+from routers import usuarios, livros, login, home, capitulos, ideias
+
+# Criando as tabelas no banco de dados com base nos modelos
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+
+app.include_router(usuarios.router)
+app.include_router(livros.router)
+app.include_router(ideias.router)
+app.include_router(capitulos.router)
+app.include_router(login.router)
+app.include_router(home.router)

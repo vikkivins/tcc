@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="settings-container">
+    <h2>Configurações da Conta</h2>
+    
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    
+    {% if success %}
+        <p class="success">{{ success }}</p>
+    {% endif %}
+    
+    <form method="POST" class="settings-form">
+        <div class="form-group">
+            <label for="nome">Nome Completo:</label>
+            <input type="text" id="nome" name="nome" value="{{ user.nome if user.nome else '' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="username">Nome de Usuário:</label>
+            <input type="text" id="username" name="username" required value="{{ user.username }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required value="{{ user.email }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="dtnasc">Data de Nascimento:</label>
+            <input type="date" id="dtnasc" name="dtnasc" value="{{ user.dtnasc if user.dtnasc else '' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio">{{ user.bio if user.bio else '' }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="senha">Nova Senha (deixe em branco para não alterar):</label>
+            <input type="password" id="senha" name="senha">
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-save">Salvar Alterações</button>
+        </div>
+    </form>
+    
+    <div class="danger-zone">
+        <h3>Zona de Perigo</h3>
+        <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita!');">
+            <input type="hidden" name="delete_account" value="true">
+            <button type="submit" class="btn-delete">Excluir Minha Conta</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
