@@ -25,6 +25,11 @@ def create_livro_endpoint(livro: LivroCreate, db: Session = Depends(get_db), cur
 def read_livros_endpoint(db: Session = Depends(get_db)):
     return get_livros(db=db)
 
+# para que os livros sejam publicos pra quem não é autenticado
+# @router.get("/publicos", response_model=List[LivroResponse])
+# def read_livros_publicos_endpoint(db: Session = Depends(get_db)):
+#     return db.query(Livro).filter(Livro.publico == True).all()
+
 @router.put("/{livro_id}", response_model=LivroResponse)
 def update_livro_endpoint(livro_id: int, livro: LivroUpdate, db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     livro_data = livro.model_dump()
@@ -54,7 +59,7 @@ def read_livro_endpoint(livro_id: int, db: Session = Depends(get_db), current_us
     if db_livro is None:
         raise HTTPException(status_code=404, detail="Livro não encontrado")
 
-    if db_livro.usuario_id != current_user.id:
+    if db_livro.usuario_id != current_user.id and not db_livro.publico:
         raise HTTPException(status_code=403, detail="Acesso negado")
 
     capitulos = db.query(Capitulo).filter(Capitulo.livro_id == livro_id).all()

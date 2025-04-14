@@ -16,11 +16,13 @@ def create_livro():
         titulo = request.form['titulo']
         descricao = request.form['descricao']
         capa = request.files['capa'] if 'capa' in request.files else None
+        publico = 'publico' in request.form
         
         livro_data = {
             'titulolivro': titulo,
             'descricaolivro': descricao,
-            'datacriacao': datetime.now().strftime('%Y-%m-%d')
+            'datacriacao': datetime.now().strftime('%Y-%m-%d'),
+            'publico': publico
         }
         
         try:
@@ -63,13 +65,24 @@ def visualizar_livro(livro_id):
     response = requests.get(f"{API_BASE_URL}/livros/{livro_id}", headers=headers)
 
     if response.status_code == 200:
-        livro_data = response.json()    
+        livro_data = response.json()
+        livro = livro_data['livro']
+        
+        # Pega o id do usuário logado a partir do token
+        token = session['access_token']
+        decoded_token = jwt.decode(token, options={"verify_signature": False})
+        usuario_logado = decoded_token.get("user_id")
+        print(livro)
+        print(usuario_logado)
+        eh_autor = int(usuario_logado) == int(livro['usuario_id'])
+
         return render_template(
             'livro.html',
-            livro=livro_data['livro'], 
+            livro=livro,
             capitulos=livro_data.get('capitulos', []),
-            ideias=livro_data.get('ideias', [])
-            )
+            ideias=livro_data.get('ideias', []),
+            eh_autor=eh_autor
+        )
     
     return render_template('livro.html', error=f"Erro {response.status_code}: {response.text}")
 
@@ -103,12 +116,14 @@ def edit_livro(livro_id):
             titulo = request.form['titulolivro']
             descricao = request.form['descricaolivro']
             capa = request.files['capalivro'] if 'capa' in request.files else None  # Capa inicializada corretamente
+            publico = 'publico' in request.form
             
             livro_data = {
                 'titulolivro': titulo,
                 'descricaolivro': descricao,
                 'data_criacao': livro.get('datacriacao', None),  # Retorna None se a chave não existir
-                'autor_ultima_modificacao': user_id
+                'autor_ultima_modificacao': user_id,
+                'publico': publico
             }
 
             # Se a capa existir no dicionário do livro, mantém

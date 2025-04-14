@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+PyJWT
+bcrypt
+pydantic
+pydantic[email]
+python-multipart
+mysql-connector-python==8.3.0
+datetime

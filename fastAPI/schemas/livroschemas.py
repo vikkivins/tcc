@@ -12,6 +12,7 @@ class LivroBase(BaseModel):
     descricaolivro: str 
     datacriacao: date  
     capalivro: Optional[str] = None 
+    publico: Optional[bool] = False  # novo campo
 
 class LivroCreate(LivroBase):
     pass
@@ -22,6 +23,7 @@ class LivroUpdate(BaseModel):
     datacriacao: Optional[date] = None 
     autor_ultima_modificacao: Optional[int] = None
     capalivro: Optional[str] = None
+    publico: Optional[bool] = None
 
 class LivroResponse(LivroBase):
     id: int
@@ -36,3 +38,9 @@ class LivroDetalhadoResponse(BaseModel):
     livro: LivroResponse
     capitulos: List[CapituloResponse] = []
     ideias: List[IdeiaResponse] = []
+
+from schemas.usuarioschemas import AutorResumoResponse
+
+class LivroComAutorResponse(BaseModel):
+    livro: LivroResponse
+    autor: AutorResumoResponse

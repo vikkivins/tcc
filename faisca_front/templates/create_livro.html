@@ -19,6 +19,10 @@
             <label for="capa">Capa (opcional):</label>
             <input type="file" id="capa" name="capa" accept="image/*">
         </div>
+        <label>
+            <input type="checkbox" name="publico" {% if livro and livro.publico %}checked{% endif %}>
+            Tornar este livro público
+        </label>        
         <button type="submit">Criar Livro</button>
         <a href="{{ url_for('home.home') }}" class="btn-cancel">Cancelar</a>
     </form>

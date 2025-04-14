@@ -26,6 +26,11 @@
             <label for="descricao">Descrição:</label>
             <textarea id="descricao" name="descricaolivro" required>{{ livro.descricaolivro }}</textarea>
         </div>
+
+        <label>
+            <input type="checkbox" name="publico" {% if livro.publico %}checked{% endif %}>
+            Tornar este livro público
+        </label>
         
         <div class="form-group">
             <label for="capa">Alterar Capa (opcional):</label>

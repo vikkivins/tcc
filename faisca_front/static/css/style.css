@@ -407,3 +407,21 @@ button[type="submit"]:hover {
     margin-bottom: 5px;
 }
 
+.autor-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* .autor-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+} */
+
+.autor-username {
+    font-weight: bold;
+    color: #555;
+}

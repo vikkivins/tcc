@@ -11,16 +11,22 @@
             <small>Criado em: {{ livro.datacriacao }}</small>
         {% endif %}
 
+        {% if eh_autor %}
+        <p>Status: {{ 'Público' if livro.publico else 'Privado' }}</p>
+
         <div class="ideia-actions">
             <a href="{{ url_for('livros.edit_livro', livro_id=livro.id) }}" class="btn-edit">Editar</a>
             <form action="{{ url_for('livros.delete_livro', livro_id=livro.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este livro?');">
                 <button type="submit" class="btn-delete">Excluir</button>
             </form>
         </div>
+        {% endif %}
 
         <h3>Capítulos</h3>
         <div class="capitulos-list">
+            {% if eh_autor %}
             <a href="{{ url_for('capitulos.create_capitulo', livro_id=livro.id) }}">Criar Novo Capítulo</a>
+            {% endif %}
             {% for capitulo in capitulos %}
             <div class="livro-card">
                 <a href="{{ url_for('capitulos.visualizar_capitulo', capitulo_id=capitulo.id) }}" class="capitulo-link">
@@ -35,6 +41,7 @@
             {% endfor %}
         </div>
 
+        {% if eh_autor %}
         <h3>Ideias Relacionadas</h3>
         <div class="ideias-list">
             {% if ideias %}
@@ -48,6 +55,7 @@
                 <p>Não há ideias relacionadas a este livro.</p>
             {% endif %}
         </div>
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}

@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, Date, DateTime, ForeignKey, Table
-from datetime import datetime, timezone  
+from sqlalchemy import Column, Integer, String, Text, Date, DateTime, ForeignKey, Table, Boolean
+from datetime import datetime, timezone 
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -47,8 +47,10 @@ class Livro(Base):
 
     ultima_modificacao = Column(DateTime, nullable=True, onupdate=lambda: datetime.now(timezone.utc))
     autor_ultima_modificacao = Column(Integer, ForeignKey('usuarios.id'), nullable=True)
+    publico = Column(Boolean, default=False)  # False = privado (padrão), True = público
+
     
-     # Explicitly specify which foreign key to use
+    # Explicitly specify which foreign key to use
     usuario = relationship("Usuario", back_populates="livros", foreign_keys=[usuario_id])
     autor_modificacao = relationship("Usuario", back_populates="livros_modificados", foreign_keys=[autor_ultima_modificacao])
     capitulos = relationship("Capitulo", back_populates="livro", cascade="all, delete-orphan")
@@ -87,3 +89,20 @@ class Ideia(Base):
     usuario = relationship("Usuario", back_populates="ideias")
     livros = relationship("Livro", secondary=livro_ideia_association, back_populates="ideias")
     capitulos = relationship("Capitulo", secondary=capitulo_ideia_association, back_populates="ideias")
+
+class Comentario(Base):
+    __tablename__='comentarios'
+
+    id = Column(Integer, primary_key=True, index=True)
+    datacriacao = Column(DateTime, nullable=False)
+    conteudocomentario = Column(Text, nullable=False)
+    capitulo_id = Column(Integer, ForeignKey('capitulos.id'), nullable=False)
+    comentario_id = Column(Integer, ForeignKey('comentarios.id'), nullable=True) # caso haja um comentário pai
+
+class Postagem(Base):
+    __tablename__='postagens'
+
+    id = Column(Integer, primary_key=True, index=True)
+    datacriacao = Column(DateTime, nullable=False)
+    conteudopostagem = Column(Text, nullable=False)
+    postagem_id = Column(Integer, ForeignKey('postagens.id'), nullable=True) # caso haja um post pai

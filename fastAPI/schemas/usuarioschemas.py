@@ -33,3 +33,10 @@ class UsuarioResponse(UsuarioBase):
     
     class Config:
         orm_mode = True
+
+class AutorResumoResponse(BaseModel):
+    username: str
+    profilepic: Optional[str] = None
+
+    class Config:
+        orm_mode = True

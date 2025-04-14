@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home-container">
+    <h2>Explorar Livros Públicos</h2>
+
+    <div class="livros-grid">
+        {% if livros %}
+            {% for item in livros %}
+            <a href="{{ url_for('livros.visualizar_livro', livro_id=item.livro.id) }}" class="livro-link">
+                <div class="livro-card">
+                    <h3>{{ item.livro.titulolivro }}</h3>
+                    <p>{{ item.livro.descricaolivro }}</p>
+                    
+                    <div class="autor-info">
+                        <!-- {% if item.autor.profilepic %}
+                            <img src="{{ url_for('static', filename=item.autor.profilepic) }}" alt="Foto de perfil" class="autor-pic">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='default-profile.png') }}" alt="Foto padrão" class="autor-pic">
+                        {% endif %} -->
+                        <span class="autor-username">{{ item.autor.username }}</span>
+                    </div>
+                    
+                    {% if item.livro.datacriacao %}
+                        <small>Criado em: {{ item.livro.datacriacao }}</small>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        {% else %}
+            <p>Nenhum livro público encontrado.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

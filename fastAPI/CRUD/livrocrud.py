@@ -4,11 +4,11 @@ from datetime import datetime, timezone
 
 # FUNÇÕES DE CRUD PARA LIVRO
 
-def create_livro(db: Session, titulolivro: str, descricaolivro: str, datacriacao: str, usuario_id: int, capalivro: str = None):
+def create_livro(db: Session, titulolivro: str, descricaolivro: str, datacriacao: str, usuario_id: int, capalivro: str = None, publico: bool = False):
     if isinstance(datacriacao, str):  # Verifica se dtnasc é string antes de converter
         datacriacao = datetime.strptime(datacriacao, '%Y-%m-%d').date()
     
-    db_livro = Livro(titulolivro=titulolivro, descricaolivro=descricaolivro, datacriacao=datacriacao, capalivro=capalivro, usuario_id=usuario_id)
+    db_livro = Livro(titulolivro=titulolivro, descricaolivro=descricaolivro, datacriacao=datacriacao, capalivro=capalivro, usuario_id=usuario_id, publico=publico)
     db.add(db_livro)
     db.commit()
     db.refresh(db_livro)
@@ -22,7 +22,7 @@ def get_livros(db: Session, skip: int = 0, limit: int = 100):
 
 def update_livro(db: Session, livro_id: int, titulolivro: str = None, 
                 descricaolivro: str = None, autor_ultima_modificacao: int = None, 
-                capalivro: str = None, datacriacao: str = None):
+                capalivro: str = None, datacriacao: str = None, publico: bool = False):
     if isinstance(datacriacao, str):  # Verifica se dtnasc é string antes de converter
         datacriacao = datetime.strptime(datacriacao, '%Y-%m-%d').date()
     db_livro = db.query(Livro).filter(Livro.id == livro_id).first()
@@ -38,6 +38,8 @@ def update_livro(db: Session, livro_id: int, titulolivro: str = None,
         db_livro.ultima_modificacao = datetime.now(timezone.utc)
         if autor_ultima_modificacao is not None:
             db_livro.autor_ultima_modificacao = autor_ultima_modificacao
+        if publico is not None:
+            db_livro.publico = publico
         db.commit()
         db.refresh(db_livro)
     return db_livro
