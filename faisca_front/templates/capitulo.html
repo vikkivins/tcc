@@ -20,4 +20,24 @@
         {% endif %}
     {% endif %}
 </div>
+
+<!-- Seção de Comentários -->
+<div class="comentarios-section">
+    <h3>Comentários</h3>
+    
+    <!-- Formulário para novo comentário (raiz) -->
+    <form class="comentario-form" method="POST" action="{{ url_for('capitulos.adicionar_comentario', capitulo_id=capitulo.id) }}">
+        <textarea name="conteudo" placeholder="Adicione um comentário..." required></textarea>
+        <input type="hidden" name="comentario_id" value="{{ comentario_pai.id if comentario_pai else '' }}">
+        <button type="submit">Comentar</button>
+    </form>
+    
+    <!-- Lista de comentários -->
+    <div class="comentarios-lista">
+        {% for comentario in capitulo.comentarios %}
+            {% include 'comentario.html' %}
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}

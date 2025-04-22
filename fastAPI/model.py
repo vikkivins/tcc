@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, Date, DateTime, ForeignKey, Table, Boolean
 from datetime import datetime, timezone 
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from database import Base
 
 # Associação entre Livro e Ideia (Relacionamento N:N)
@@ -96,8 +96,18 @@ class Comentario(Base):
     id = Column(Integer, primary_key=True, index=True)
     datacriacao = Column(DateTime, nullable=False)
     conteudocomentario = Column(Text, nullable=False)
+    usuario_id = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
     capitulo_id = Column(Integer, ForeignKey('capitulos.id'), nullable=False)
-    comentario_id = Column(Integer, ForeignKey('comentarios.id'), nullable=True) # caso haja um comentário pai
+    comentario_id = Column(Integer, ForeignKey('comentarios.id'), nullable=True)
+
+    usuario = relationship("Usuario")
+    capitulo = relationship("Capitulo")
+    respostas = relationship(
+        "Comentario",
+        backref=backref('pai', remote_side=[id]),
+        cascade="all, delete-orphan",
+        lazy="dynamic"
+    )
 
 class Postagem(Base):
     __tablename__='postagens'

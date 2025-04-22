@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import date, datetime
+from .comentarioschemas import ComentarioResponse
 
 ## LIVRO SCHEMAS
 
@@ -27,6 +28,8 @@ class CapituloResponse(CapituloBase):
     ultima_modificacao: Optional[datetime] = None
     autor_ultima_modificacao: Optional[int] = None
     livro_id: int = None
+    comentarios: List[ComentarioResponse] = []
     
     class Config:
         orm_mode = True
+        

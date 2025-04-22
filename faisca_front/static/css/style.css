@@ -425,3 +425,119 @@ button[type="submit"]:hover {
     font-weight: bold;
     color: #555;
 }
+
+.comentarios-section {
+    margin-top: 2rem;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+}
+
+.comentario-form {
+    margin-bottom: 2rem;
+}
+
+.comentario-form textarea {
+    width: 100%;
+    min-height: 80px;
+    margin-bottom: 0.5rem;
+}
+
+.comentarios-lista {
+    margin-top: 1rem;
+}
+
+/* Estilos para a seção de comentários */
+.comentario {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 5px;
+    border-left: 3px solid #ddd;
+    position: relative;
+}
+
+/* Comentários aninhados (respostas) */
+.comentario .comentario {
+    margin-left: 40px;
+    margin-top: 1rem;
+}
+
+.comentario-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.comentario-cabecalho small {
+    color: #666;
+}
+
+.comentario-conteudo {
+    margin: 0.5rem 0;
+    white-space: pre-line;
+}
+
+.btn-resposta {
+    background: none;
+    border: none;
+    color: #0066cc;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.btn-resposta:hover {
+    text-decoration: underline;
+}
+
+.form-resposta {
+    display: none;
+    margin-top: 1rem;
+}
+
+.form-resposta textarea {
+    width: 100%;
+    min-height: 80px;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.form-botoes {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-enviar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    background-color: #f44336;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.respostas {
+    margin-top: 1rem;
+}
+
+.comentario-acoes {
+    margin-top: 5px;
+}
+
+.comentario-acoes form {
+    display: inline;
+}

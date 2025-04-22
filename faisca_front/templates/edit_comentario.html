@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="edit-comment-container">
+    <h2>Editar Comentário</h2>
+    
+    {% if error_msg %}
+        <p class="error">{{ error_msg }}</p>
+    {% endif %}
+    
+    <form method="POST" action="{{ url_for('capitulos.editar_comentario', comentario_id=comentario.id) }}">
+        <input type="hidden" name="capitulo_id" value="{{ capitulo_id }}">
+        <textarea name="conteudo" required>{{ comentario.conteudocomentario }}</textarea>
+        <div class="form-actions">
+            <button type="submit" class="btn-save">Salvar</button>
+            <a href="{{ url_for('capitulos.visualizar_capitulo', capitulo_id=capitulo_id) }}" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

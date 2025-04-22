@@ -9,10 +9,8 @@ from datetime import datetime, timezone
 #     comentario_id: int
 
 def create_comentario(db: Session, datacriacao: str, conteudocomentario: str, usuario_id: int, capitulo_id: int, comentario_id: int):
-    if isinstance(datacriacao, str):  # Verifica se dtnasc é string antes de converter
-        datacriacao = datetime.strptime(datacriacao, '%Y-%m-%d').date()
     
-    db_comentario = Comentario(datacriacao=datacriacao, conteudocomentario=conteudocomentario, usuario_id=usuario_id, capitulo_id=capitulo_id, comentario_id=comentario_id)
+    db_comentario = Comentario(datacriacao=datetime.now(timezone.utc), conteudocomentario=conteudocomentario, usuario_id=usuario_id, capitulo_id=capitulo_id, comentario_id=comentario_id)
     db.add(db_comentario)
     db.commit()
     db.refresh(db_comentario)
