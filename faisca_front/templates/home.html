@@ -1,9 +1,14 @@
 {% extends "base.html" %}
+{% block title %}Início{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="home-container">
     <h2>Bem-vindo, {{ username }}!</h2>
-    <h3>Meus Livros</h3>
+    
+    <h3>Meus livros</h3>
     
     {% if error %}
         <p class="error">{{ error }}</p>
@@ -11,19 +16,23 @@
     
     <a href="{{ url_for('livros.create_livro') }}" class="btn-create">Criar Novo Livro</a>
     
-    <div class="livros-grid">
+    <div class="livros-container">
         {% if livros %}
-            {% for livro in livros %}
-            <a href="{{ url_for('livros.visualizar_livro', livro_id=livro.id) }}" class="livro-link">
-                <div class="livro-card">
-                    <h3>{{ livro.titulolivro }}</h3>
-                    <p>{{ livro.descricaolivro }}</p>
-                    {% if livro.datacriacao %}
-                        <small>Criado em: {{ livro.datacriacao }}</small>
-                    {% endif %}
-                </div>
-            </a>
-            {% endfor %}
+            <div class="arrow arrow-left" id="left-arrow-livros">&lt;</div>
+            <div class="livros-grid" id="livros-carousel">
+                {% for livro in livros %}
+                <a href="{{ url_for('livros.visualizar_livro', livro_id=livro.id) }}" class="livro-link">
+                    <div class="livro-card">
+                        <h3>{{ livro.titulolivro }}</h3>
+                        <p>{{ livro.descricaolivro }}</p>
+                        {% if livro.datacriacao %}
+                            <small>Criado em: {{ livro.datacriacao }}</small>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            <div class="arrow arrow-right" id="right-arrow-livros">&gt;</div>
         {% else %}
             <p>Nenhum livro encontrado. Crie seu primeiro livro!</p>
         {% endif %}
@@ -37,22 +46,61 @@
 
     <a href="{{ url_for('ideias.create_ideia') }}" class="btn-create">Criar Nova Ideia</a>
 
-    <div class="livros-grid">
+    <div class="livros-container">
         {% if ideias %}
-            {% for ideia in ideias %}
-            <a href="{{ url_for('ideias.visualizar_ideia', ideia_id=ideia.id) }}" class="livro-link">
-            <div class="livro-card">
-                <h3>{{ ideia.tituloideia }}</h3>
-                <p>{{ ideia.conteudoideia }}</p>
-                {% if ideia.datacriacao %}
-                    <small>Criado em: {{ ideia.datacriacao }}</small>
-                {% endif %}
+            <div class="arrow arrow-left" id="left-arrow-ideias">&lt;</div>
+            <div class="livros-grid" id="ideias-carousel">
+                {% for ideia in ideias %}
+                <a href="{{ url_for('ideias.visualizar_ideia', ideia_id=ideia.id) }}" class="livro-link">
+                    <div class="livro-card">
+                        <h3>{{ ideia.tituloideia }}</h3>
+                        <p>{{ ideia.conteudoideia }}</p>
+                        {% if ideia.datacriacao %}
+                            <small>Criado em: {{ ideia.datacriacao }}</small>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
             </div>
-            {% endfor %}
+            <div class="arrow arrow-right" id="right-arrow-ideias">&gt;</div>
         {% else %}
             <p>Nenhuma ideia encontrada. Crie sua primeira ideia!</p>
         {% endif %}
     </div>
-
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configuração para o carrossel de livros
+        setupCarousel('livros-carousel', 'left-arrow-livros', 'right-arrow-livros');
+        
+        // Configuração para o carrossel de ideias
+        setupCarousel('ideias-carousel', 'left-arrow-ideias', 'right-arrow-ideias');
+        
+        function setupCarousel(carouselId, leftArrowId, rightArrowId) {
+            const carousel = document.getElementById(carouselId);
+            const leftArrow = document.getElementById(leftArrowId);
+            const rightArrow = document.getElementById(rightArrowId);
+            
+            if (!carousel || !leftArrow || !rightArrow) return;
+            
+            // Calcular a quantidade de rolagem
+            const scrollAmount = 200;
+            
+            leftArrow.addEventListener('click', function() {
+                carousel.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+            
+            rightArrow.addEventListener('click', function() {
+                carousel.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    });
+</script>
 {% endblock %}

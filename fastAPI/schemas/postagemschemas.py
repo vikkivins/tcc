@@ -6,21 +6,21 @@ from datetime import date, datetime
 
 class PostagemBase(BaseModel):  
     conteudopostagem: str 
-    data_criacao: datetime
-    postagem_id: int
+    datacriacao: Optional[datetime] = None
+    postagem_id: Optional[int] = None 
 
 class PostagemCreate(PostagemBase):
     pass
 
 class PostagemUpdate(BaseModel):
     conteudopostagem: Optional[str] = None
-    data_criacao: Optional[datetime] = None
+    datacriacao: Optional[datetime] = None
 
 class PostagemResponse(PostagemBase):
     id: int
     usuario_id: int
     ultima_modificacao: Optional[datetime] = None
-    postagem_id: int = None
+    postagem_id: Optional[int] = None
     
     class Config:
         orm_mode = True

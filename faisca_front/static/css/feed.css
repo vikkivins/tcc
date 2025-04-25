@@ -1,0 +1,108 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.home-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulário de nova postagem */
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    resize: vertical;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+form button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo das postagens */
+.postagens-lista {
+    margin-top: 20px;
+}
+
+.postagem-card {
+    background-color: #f1f1f1;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.postagem-card p {
+    margin: 10px 0;
+}
+
+.postagem-card textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.postagem-card .data {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #777;
+}
+
+/* Botões de ação */
+.postagem-card form {
+    display: inline;
+}
+
+.postagem-card button {
+    margin-top: 8px;
+    background-color: #2196F3;
+}
+
+.postagem-card button:hover {
+    background-color: #0b7dda;
+}
+
+/* Paginação */
+.paginacao {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.paginacao a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.paginacao span {
+    font-weight: bold;
+}

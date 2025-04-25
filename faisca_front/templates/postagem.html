@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="home-container">
+
+<!-- NOVA POSTAGEM -->
+<form method="POST" action="{{ url_for('postagem.nova_postagem') }}">
+    <textarea name="conteudopostagem" placeholder="O que você está pensando?" required></textarea>
+    <button type="submit">Publicar</button>
+</form>
+
+<hr>
+<h2>Postagens Recentes</h2>
+
+    <div class="postagens-lista">
+        {% if postagens %}
+            {% for post in postagens %}
+            <div class="postagem-card">
+                <form method="POST" action="{{ url_for('postagem.editar_postagem', id=post.id) }}">
+                    {% if post.usuario_id == session['user_id'] %}
+                        <textarea name="conteudopostagem">{{ post.conteudopostagem }}</textarea>
+                        <input type="hidden" name="datacriacao" value="{{ post.datacriacao[:19] }}">
+                        <button type="submit">Salvar</button>
+                    {% else %}
+                        <p>{{ post.conteudopostagem }}</p>
+                    {% endif %}
+                </form>
+
+                {% if post.usuario_id == session['user_id'] %}
+                <form method="POST" action="{{ url_for('postagem.excluir_postagem', id=post.id) }}">
+                    <button type="submit" onclick="return confirm('Tem certeza que deseja excluir esta postagem?')">Excluir</button>
+                </form>
+                {% endif %}
+
+                <small class="data">Criado em: {{ post.datacriacao[:10] }}</small>
+            </div>
+            {% endfor %}
+
+            <div class="paginacao">
+                {% if page > 1 %}
+                    <a href="{{ url_for('postagem.listar_postagens', page=page - 1) }}">← Anterior</a>
+                {% endif %}
+                <span>Página {{ page }}</span>
+                {% if postagens|length >= 5 %}
+                    <a href="{{ url_for('postagem.listar_postagens', page=page + 1) }}">Próxima →</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>Nenhuma postagem encontrada.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

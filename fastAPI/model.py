@@ -34,6 +34,7 @@ class Usuario(Base):
     livros_modificados = relationship("Livro", back_populates="autor_modificacao", foreign_keys="[Livro.autor_ultima_modificacao]")
     capitulos_modificados = relationship("Capitulo", back_populates="autor_modificacao", foreign_keys="[Capitulo.autor_ultima_modificacao]")
     ideias = relationship("Ideia", back_populates="usuario")
+    postagens = relationship("Postagem", back_populates="usuario")
 
 class Livro(Base):
     __tablename__ = 'livros'
@@ -116,3 +117,6 @@ class Postagem(Base):
     datacriacao = Column(DateTime, nullable=False)
     conteudopostagem = Column(Text, nullable=False)
     postagem_id = Column(Integer, ForeignKey('postagens.id'), nullable=True) # caso haja um post pai
+    usuario_id = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
+
+    usuario = relationship("Usuario", back_populates="postagens")

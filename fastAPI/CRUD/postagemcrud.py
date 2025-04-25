@@ -8,10 +8,10 @@ from datetime import datetime, timezone
 #     conteudopostagem = Column(Text, nullable=False)
 #     postagem_id = Column(Integer, ForeignKey('postagens.id'), nullable=True)
 
-def create_postagem(db: Session, datacriacao: str, conteudopostagem: str, usuario_id: int, postagem_id: int):
+def create_postagem(db: Session, datacriacao: str, conteudopostagem: str, usuario_id: int, postagem_id: int = None):
     if isinstance(datacriacao, str):  # Verifica se dtnasc é string antes de converter
         datacriacao = datetime.strptime(datacriacao, '%Y-%m-%d').date()
-    
+
     db_postagem = Postagem(datacriacao=datacriacao, conteudopostagem=conteudopostagem, usuario_id=usuario_id, postagem_id=postagem_id)
     db.add(db_postagem)
     db.commit()
@@ -21,7 +21,7 @@ def create_postagem(db: Session, datacriacao: str, conteudopostagem: str, usuari
 def get_postagem(db: Session, postagem_id: int):
     return db.query(Postagem).filter(Postagem.id == postagem_id).first()
 
-def get_postagems(db: Session, skip: int = 0, limit: int = 100):
+def get_postagens(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Postagem).offset(skip).limit(limit).all()
 
 def update_postagem(db: Session, postagem_id: int, conteudopostagem: str = None, datacriacao: str = None):
