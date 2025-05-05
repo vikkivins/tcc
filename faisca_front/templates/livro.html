@@ -1,59 +1,90 @@
 {% extends "base.html" %}
+{% block title %}{{ livro.titulolivro }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/livro.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="livro-container">
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% else %}
-        <h2>{{ livro.titulolivro }}</h2>
-        <p>{{ livro.descricaolivro }}</p>
-        {% if livro.datacriacao %}
-            <small>Criado em: {{ livro.datacriacao }}</small>
-        {% endif %}
-
-        {% if eh_autor %}
-        <p>Status: {{ 'Público' if livro.publico else 'Privado' }}</p>
-
-        <div class="ideia-actions">
-            <a href="{{ url_for('livros.edit_livro', livro_id=livro.id) }}" class="btn-edit">Editar</a>
-            <form action="{{ url_for('livros.delete_livro', livro_id=livro.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este livro?');">
-                <button type="submit" class="btn-delete">Excluir</button>
-            </form>
-        </div>
-        {% endif %}
-
-        <h3>Capítulos</h3>
-        <div class="capitulos-list">
-            {% if eh_autor %}
-            <a href="{{ url_for('capitulos.create_capitulo', livro_id=livro.id) }}">Criar Novo Capítulo</a>
-            {% endif %}
-            {% for capitulo in capitulos %}
-            <div class="livro-card">
-                <a href="{{ url_for('capitulos.visualizar_capitulo', capitulo_id=capitulo.id) }}" class="capitulo-link">
-                        <h3>{{ capitulo.titulocapitulo }}</h3>
-                        {% if capitulo.datacriacao %}
-                            <small>Criado em: {{ capitulo.datacriacao }}</small>
-                        {% endif %}
-                </a>
+<div class="livro-detalhe-container">
+    <div class="capa-secao">
+        <div class="linha-divisoria"></div>
+        <div class="capa-livro">
+            <div class="capa-placeholder">
+                <span>{{ livro.titulolivro }}</span>
             </div>
-            {% else %}
-                <p>Não há capítulos ainda.</p>
-            {% endfor %}
+        </div>
+    </div>
+    
+    {% if error %}
+        <p class="mensagem-erro">{{ error }}</p>
+    {% else %}
+        <div class="livro-info">
+            <h1 class="titulo-livro">{{ livro.titulolivro }}</h1>
+            <p class="descricao-livro">{{ livro.descricaolivro }}</p>
+            {% if livro.datacriacao %}
+                <div class="data-criacao">Criado em: {{ livro.datacriacao }}</div>
+            {% endif %}
+
+            {% if eh_autor %}
+            <div class="status-livro">
+                <span class="status-badge {{ 'publico' if livro.publico else 'privado' }}">
+                    {{ 'Público' if livro.publico else 'Privado' }}
+                </span>
+            </div>
+
+            <div class="acoes-livro">
+                <a href="{{ url_for('livros.edit_livro', livro_id=livro.id) }}" class="btn-editar">Editar</a>
+                <form action="{{ url_for('livros.delete_livro', livro_id=livro.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este livro?');" class="form-excluir">
+                    <button type="submit" class="btn-excluir">Excluir</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="secao-capitulos">
+            <h2 class="titulo-secao">Capítulos</h2>
+            
+            {% if eh_autor %}
+            <a href="{{ url_for('capitulos.create_capitulo', livro_id=livro.id) }}" class="btn-novo-capitulo">
+                <span class="icone-adicionar">+</span> Criar Novo Capítulo
+            </a>
+            {% endif %}
+            
+            <div class="capitulos-lista">
+                {% for capitulo in capitulos %}
+                <div class="capitulo-card">
+                    <a href="{{ url_for('capitulos.visualizar_capitulo', capitulo_id=capitulo.id) }}" class="capitulo-link">
+                        <div class="capitulo-conteudo">
+                            <h3 class="titulo-capitulo">{{ capitulo.titulocapitulo }}</h3>
+                            {% if capitulo.datacriacao %}
+                                <div class="data-capitulo">Criado em: {{ capitulo.datacriacao }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="seta-direita">→</div>
+                    </a>
+                </div>
+                {% else %}
+                <p class="mensagem-vazia">Não há capítulos ainda.</p>
+                {% endfor %}
+            </div>
         </div>
 
         {% if eh_autor %}
-        <h3>Ideias Relacionadas</h3>
-        <div class="ideias-list">
-            {% if ideias %}
-                {% for ideia in ideias %}
-                <div class="ideia-card">
-                    <h4>{{ ideia.tituloideia }}</h4>
-                    <p>{{ ideia.conteudoideia }}</p>
-                </div>
-                {% endfor %}
-            {% else %}
-                <p>Não há ideias relacionadas a este livro.</p>
-            {% endif %}
+        <div class="secao-ideias">
+            <h2 class="titulo-secao">Ideias Relacionadas</h2>
+            <div class="ideias-lista">
+                {% if ideias %}
+                    {% for ideia in ideias %}
+                    <div class="ideia-card">
+                        <h4 class="titulo-ideia">{{ ideia.tituloideia }}</h4>
+                        <p class="conteudo-ideia">{{ ideia.conteudoideia }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="mensagem-vazia">Não há ideias relacionadas a este livro.</p>
+                {% endif %}
+            </div>
         </div>
         {% endif %}
     {% endif %}

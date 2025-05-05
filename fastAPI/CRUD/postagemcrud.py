@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 def create_postagem(db: Session, datacriacao: str, conteudopostagem: str, usuario_id: int, postagem_id: int = None):
     if isinstance(datacriacao, str):  # Verifica se dtnasc é string antes de converter
-        datacriacao = datetime.strptime(datacriacao, '%Y-%m-%d').date()
+        datacriacao = datetime.strptime(datacriacao, '%Y-%m-%d - %H:%M').date()
 
     db_postagem = Postagem(datacriacao=datacriacao, conteudopostagem=conteudopostagem, usuario_id=usuario_id, postagem_id=postagem_id)
     db.add(db_postagem)
@@ -26,7 +26,7 @@ def get_postagens(db: Session, skip: int = 0, limit: int = 100):
 
 def update_postagem(db: Session, postagem_id: int, conteudopostagem: str = None, datacriacao: str = None):
     if isinstance(datacriacao, str):  # Verifica se dtnasc é string antes de converter
-        datacriacao = datetime.strptime(datacriacao, '%Y-%m-%d').date()
+        datacriacao = datetime.strptime(datacriacao, '%Y-%m-%d - %H:%M').date()
     db_postagem = db.query(Postagem).filter(Postagem.id == postagem_id).first()
     if db_postagem:
         if conteudopostagem is not None:

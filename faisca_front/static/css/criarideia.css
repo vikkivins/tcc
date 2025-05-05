@@ -1,0 +1,113 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f0f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.ideia-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+}
+
+h2 {
+    color: #4a0e4e;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Formulário de ideia */
+.ideia-form {
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #d1c4e9;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    resize: vertical;
+    border: 1px solid #d1c4e9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    min-height: 200px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #8e44ad;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.2);
+}
+
+/* Botões */
+.botoes-acao {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn-criar {
+    padding: 12px 25px;
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    flex-grow: 1;
+}
+
+.btn-criar:hover {
+    background-color: #9b59b6;
+}
+
+.btn-cancelar {
+    padding: 12px 25px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    flex-grow: 1;
+}
+
+.btn-cancelar:hover {
+    background-color: #c0392b;
+}
+
+/* Mensagem de erro */
+.mensagem-erro {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #c62828;
+}

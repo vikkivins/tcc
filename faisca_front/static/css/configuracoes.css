@@ -1,0 +1,170 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f0f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.settings-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+}
+
+h2 {
+    color: #4a0e4e;
+    font-size: 26px;
+    margin-bottom: 25px;
+    text-align: center;
+    position: relative;
+}
+
+h2:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #8e44ad;
+    margin: 10px auto 0;
+}
+
+h3 {
+    color: #e74c3c;
+    font-size: 20px;
+    margin: 35px 0 15px 0;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+h3:after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: #e74c3c;
+    margin-top: 8px;
+}
+
+/* Mensagens */
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #c62828;
+}
+
+.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2e7d32;
+}
+
+/* Formulário */
+.settings-form {
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #4a0e4e;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1c4e9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #8e44ad;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.2);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Botões */
+.form-actions {
+    margin-top: 30px;
+}
+
+.btn-save {
+    padding: 12px 24px;
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+    background-color: #9b59b6;
+}
+
+/* Zona de perigo */
+.danger-zone {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ffcdd2;
+}
+
+.btn-delete {
+    padding: 12px 24px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .settings-container {
+        padding: 20px 15px;
+        margin: 15px;
+    }
+    
+    .btn-save,
+    .btn-delete {
+        width: 100%;
+    }
+}

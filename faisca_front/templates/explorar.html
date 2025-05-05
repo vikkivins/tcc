@@ -1,35 +1,58 @@
 {% extends "base.html" %}
+{% block title %}Explorar{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/explorar.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="home-container">
     <h2>Explorar Livros Públicos</h2>
-
-    <div class="livros-grid">
-        {% if livros %}
-            {% for item in livros %}
-            <a href="{{ url_for('livros.visualizar_livro', livro_id=item.livro.id) }}" class="livro-link">
-                <div class="livro-card">
-                    <h3>{{ item.livro.titulolivro }}</h3>
-                    <p>{{ item.livro.descricaolivro }}</p>
-                    
-                    <div class="autor-info">
-                        <!-- {% if item.autor.profilepic %}
-                            <img src="{{ url_for('static', filename=item.autor.profilepic) }}" alt="Foto de perfil" class="autor-pic">
-                        {% else %}
-                            <img src="{{ url_for('static', filename='default-profile.png') }}" alt="Foto padrão" class="autor-pic">
-                        {% endif %} -->
-                        <span class="autor-username">{{ item.autor.username }}</span>
+    
+    <div class="book-carousel-container">
+        <button class="carousel-button prev">&lt;</button>
+        <div class="book-carousel">
+            {% if livros %}
+                {% for item in livros %}
+                <a href="{{ url_for('livros.visualizar_livro', livro_id=item.livro.id) }}" class="book-item">
+                    <div class="book-content">
+                        <span class="book-name">{{ item.livro.titulolivro }}</span>
+                        <p class="book-description">{{ item.livro.descricaolivro }}</p>
+                        <div class="autor-info">
+                            <span class="autor-username">{{ item.autor.username }}</span>
+                        </div>
+                        {% if item.livro.datacriacao %}
+                            <small class="data-criacao">Criado em: {{ item.livro.datacriacao }}</small>
+                        {% endif %}
                     </div>
-                    
-                    {% if item.livro.datacriacao %}
-                        <small>Criado em: {{ item.livro.datacriacao }}</small>
-                    {% endif %}
-                </div>
-            </a>
-            {% endfor %}
-        {% else %}
-            <p>Nenhum livro público encontrado.</p>
-        {% endif %}
+                </a>
+                {% endfor %}
+            {% else %}
+                <p class="no-books">Nenhum livro público encontrado.</p>
+            {% endif %}
+        </div>
+        <button class="carousel-button next">&gt;</button>
     </div>
 </div>
+
+    {% block extra_js %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Carousel functionality
+        const carouselContainer = document.querySelector('.book-carousel-container');
+        const carousel = carouselContainer.querySelector('.book-carousel');
+        const prevButton = carouselContainer.querySelector('.carousel-button.prev');
+        const nextButton = carouselContainer.querySelector('.carousel-button.next');
+
+        prevButton.addEventListener('click', () => {
+            carousel.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+
+        nextButton.addEventListener('click', () => {
+            carousel.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+    });
+    </script>
+    {% endblock %}
+
 {% endblock %}

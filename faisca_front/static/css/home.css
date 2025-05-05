@@ -1,169 +1,226 @@
-/* Estilo geral para a página */
+/* Estilos gerais */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
 .home-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  /* Botões de ação */
-  .btn-create {
-    display: inline-block;
-    background-color: #6a1b9a;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 4px;
-    text-decoration: none;
-    margin-bottom: 20px;
-  }
-  
-  .btn-create:hover {
-    background-color: #8e24aa;
-  }
-  
-  /* Cabeçalhos */
-  h2, h3 {
-    color: #333;
-    margin-bottom: 15px;
-  }
-  
-  /* Seção de livros */
-  .livros-grid {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 20px 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    margin-bottom: 40px;
-  }
-  
-  /* Estilo para os cards de livro */
-  .livro-link {
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.3s ease;
-    min-width: 150px;
-    margin-right: 15px;
-  }
-  
-  .livro-card {
-    height: 220px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 15px;
-    background-color: #6a1b9a; /* Cor roxa como na imagem */
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    position: relative;
-    color: white;
-  }
-  
-  /* Livros laterais com tamanho reduzido e cores diferentes */
-  .livro-link:nth-child(odd) .livro-card {
-    background-color: #7b1fa2; /* Tons de roxo alternados */
-  }
-  
-  .livro-link:nth-child(even) .livro-card {
-    background-color: #5e35b1;
-  }
-  
-  /* Efeito de foco para o livro central */
-  .livro-link:hover {
-    transform: scale(1.05);
-    z-index: 10;
-  }
-  
-  .livro-card h3 {
-    margin: 0;
-    font-size: 18px;
-    color: white;
-    margin-bottom: 8px;
-  }
-  
-  .livro-card p {
-    margin: 0;
-    font-size: 14px;
-    opacity: 0.9;
-    display: -webkit-box;
-    --webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .livro-card small {
-    position: absolute;
-    bottom: 10px;
-    font-size: 12px;
-    opacity: 0.8;
-  }
-  
-  /* Mensagem quando não há livros */
-  .livros-grid > p {
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 5px;
-    text-align: center;
-    width: 100%;
-  }
-  
-  /* Barra de rolagem personalizada */
-  .livros-grid::-webkit-scrollbar {
-    height: 8px;
-  }
-  
-  .livros-grid::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-  
-  .livros-grid::-webkit-scrollbar-thumb {
-    background: #8e24aa;
-    border-radius: 10px;
-  }
-  
-  .livros-grid::-webkit-scrollbar-thumb:hover {
-    background: #6a1b9a;
-  }
-  
-  /* Setas de navegação (opcional) */
-  .arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background-color: rgba(106, 27, 154, 0.7);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 100;
-  }
-  
-  .arrow-left {
-    left: 10px;
-  }
-  
-  .arrow-right {
-    right: 10px;
-  }
-  
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .livro-card {
-      height: 180px;
-      min-width: 120px;
-    }
-    
-    .livro-card h3 {
-      font-size: 16px;
-    }
-  }
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2, h3 {
+  color: #333;
+}
+
+.btn-create {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #6c5ce7;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s;
+}
+
+.btn-create:hover {
+  background-color: #5649c0;
+}
+
+.error {
+  color: red;
+  margin-bottom: 15px;
+}
+
+/* Estilos do carrossel */
+.carousel-section {
+  position: relative;
+  width: 100%;
+  min-height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(171,102,255,0.8) 0%, rgba(116,182,247,0.8) 90%);
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 30px 0;
+  padding: 10px 0;
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide {
+  width: 280px;
+  height: 350px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+  filter: blur(1px);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: self-start;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.3s ease;
+}
+
+.swiper-slide-active {
+  filter: blur(0px);
+}
+
+.swiper-pagination-bullet,
+.swiper-pagination-bullet-active {
+  background: #fff;
+}
+
+.swiper-slide span {
+  text-transform: uppercase;
+  color: #fff;
+  background: #6c5ce7;
+  padding: 7px 18px 7px 25px;
+  display: inline-block;
+  border-radius: 0 20px 20px 0px;
+  letter-spacing: 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.swiper-slide h2 {
+  color: #fff;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  margin-bottom: 15px;
+  padding: 25px 25px 0 25px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+
+.swiper-slide p {
+  color: #fff;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  padding: 0 25px 35px 25px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+
+.swiper-slide svg {
+  color: #fff;
+  width: 22px;
+  height: 22px;
+  margin-right: 7px;
+}
+
+/* Cores para os tipos de slide */
+.livro-card span {
+  background: #6c5ce7;
+}
+
+.ideia-card span {
+  background: #00b894;
+}
+
+/* Fundo gradiente para os slides */
+.livro-slide {
+  background: linear-gradient(to top, rgba(15, 32, 39, 0.9), rgba(32, 58, 67, 0.3), rgba(44, 83, 100, 0));
+  background-color: #6c5ce7;
+}
+
+.ideia-slide {
+  background: linear-gradient(to top, rgba(15, 32, 39, 0.9), rgba(32, 58, 67, 0.3), rgba(44, 83, 100, 0));
+  background-color: #00b894;
+}
+
+.swiper-3d .swiper-slide-shadow-left,
+.swiper-3d .swiper-slide-shadow-right {
+  background-image: none;
+}
+
+/* Estilos para quando não há itens */
+.no-items {
+  text-align: center;
+  padding: 40px 0;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+
+/* Estilos para o botão de adicionar e os botões de opção */
+.add-button-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+
+.add-button {
+  width: 60px;
+  height: 60px;
+  background-color: #f39c12;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.add-button.active {
+  transform: rotate(45deg);
+}
+
+.option-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.option-buttons.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.option-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.option-button:nth-child(1) {
+  background-color: #4a0e4e; /* Azul para "nova obra" */
+}
+
+.option-button:nth-child(2) {
+  background-color: #f16fc8; /* Vermelho para "nova ideia" */
+}
+
+/* Ícones para os botões de opção */
+.option-button i {
+  font-size: 20px;
+}

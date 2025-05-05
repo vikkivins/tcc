@@ -9,6 +9,8 @@ class ComentarioBase(BaseModel):
     datacriacao: datetime
     capitulo_id: int
     comentario_id: Optional[int] = None
+    citacao: Optional[str] = None
+    citacao_autor: Optional[str] = None
 
 class ComentarioCreate(ComentarioBase):
     pass

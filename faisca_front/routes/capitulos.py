@@ -1,3 +1,4 @@
+#capitulos.py (front)
 from flask import render_template, request, redirect, url_for, session, Blueprint, jsonify
 from datetime import datetime, timezone
 import requests, json
@@ -168,9 +169,9 @@ def delete_capitulo(capitulo_id):
     except requests.exceptions.RequestException:
         return redirect(url_for('home.home'))
     
-########## COMENTARIOS #######################
+################## COMENTARIOS #######################
 
-@capitulos_bp.route('/capitulo/<int:capitulo_id>/comentario', methods=['POST'])
+@capitulos_bp.route('/capitulo/<capitulo_id>/comentario', methods=['POST'])
 def adicionar_comentario(capitulo_id):
     if 'access_token' not in session:
         return redirect(url_for('auth.login'))
@@ -178,6 +179,10 @@ def adicionar_comentario(capitulo_id):
     # Obter dados do formulário
     conteudo = request.form.get('conteudo')
     comentario_pai_id = request.form.get('comentario_id') or None
+    
+    # Obter dados de citação (novo)
+    citacao = request.form.get('citacao', '')
+    citacao_autor = request.form.get('citacao_autor', '')
     
     if not conteudo:
         # Carregar capítulo para mostrar o erro
@@ -200,11 +205,19 @@ def adicionar_comentario(capitulo_id):
         "datacriacao": datetime.now(timezone.utc).isoformat()
     }
     
+    # Adicionar dados de citação se fornecidos (novo)
+    if citacao and citacao.strip():
+        comentario_data["citacao"] = citacao
+        comentario_data["citacao_autor"] = citacao_autor
+    
     try:
         headers = {
             'Authorization': f"Bearer {session['access_token']}",
             'Content-Type': 'application/json'
         }
+        
+        # Verificar se é uma requisição AJAX (novo)
+        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
         
         # Converter para JSON antes de enviar
         response = requests.post(
@@ -212,6 +225,16 @@ def adicionar_comentario(capitulo_id):
             json=comentario_data,  # Usar json= para enviar como JSON
             headers=headers
         )
+        
+        # Se for uma requisição AJAX, retornar JSON (novo)
+        if is_ajax:
+            if response.status_code in [200, 201]:
+                return jsonify({'success': True})
+            else:
+                return jsonify({
+                    'success': False, 
+                    'error': f"Erro {response.status_code}: {response.text}"
+                })
         
         if response.status_code != 200:
             # Recarregar capítulo para mostrar erro
@@ -240,16 +263,14 @@ def adicionar_comentario(capitulo_id):
 
     return redirect(url_for('capitulos.visualizar_capitulo', capitulo_id=capitulo_id))
 
-
-@capitulos_bp.route('/comentario/<int:comentario_id>/editar', methods=['GET', 'POST'])
-def editar_comentario(comentario_id):
+@capitulos_bp.route('/capitulo/<int:capitulo_id>/comentario/<int:comentario_id>/editar', methods=['GET', 'POST'])
+def editar_comentario(comentario_id, capitulo_id):
     if 'access_token' not in session:
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return jsonify({'success': False, 'error': 'Não autenticado'}), 401
         return redirect(url_for('auth.login'))
     
     headers = {'Authorization': f"Bearer {session['access_token']}"}
-    capitulo_id = request.args.get('capitulo_id')
     
     if request.method == 'POST':
         conteudo = request.form.get('conteudo')
@@ -264,7 +285,7 @@ def editar_comentario(comentario_id):
         
         try:
             response = requests.put(
-                f"{API_BASE_URL}/comentarios/{comentario_id}",
+                f"{API_BASE_URL}/capitulos/{capitulo_id}/comentarios/{comentario_id}",
                 json={'conteudocomentario': conteudo},
                 headers=headers
             )
@@ -303,7 +324,7 @@ def editar_comentario(comentario_id):
     # GET - Mostrar formulário de edição (mantido para compatibilidade)
     try:
         response = requests.get(
-            f"{API_BASE_URL}/comentarios/{comentario_id}",
+            f"{API_BASE_URL}/capitulos/{capitulo_id}/comentarios/{comentario_id}",
             headers=headers
         )
         
@@ -337,17 +358,16 @@ def editar_comentario(comentario_id):
                             capitulo_id=capitulo_id,
                             error_msg=f"Erro ao conectar com o servidor: {str(e)}"))
 
-@capitulos_bp.route('/comentario/<int:comentario_id>/excluir', methods=['POST'])
-def excluir_comentario(comentario_id):
+@capitulos_bp.route('/capitulo/<int:capitulo_id>/comentario/<int:comentario_id>/excluir', methods=['POST'])
+def excluir_comentario(capitulo_id, comentario_id):
     if 'access_token' not in session:
         return redirect(url_for('auth.login'))
     
     headers = {'Authorization': f"Bearer {session['access_token']}"}
-    capitulo_id = request.args.get('capitulo_id')
     
     try:
         response = requests.delete(
-            f"{API_BASE_URL}/comentarios/{comentario_id}",
+            f"{API_BASE_URL}/capitulos/{capitulo_id}/comentarios/{comentario_id}",
             headers=headers
         )
         

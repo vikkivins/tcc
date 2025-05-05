@@ -1,21 +1,22 @@
 {% extends "base.html" %}
+{% block title %}Editar Capítulo{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/editarcapitulo.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="edit-container">
-    <h2>Editar Capitulo</h2>
-    
+<div class="create-container">
+    <h2>Editar Capítulo</h2>
     {% if error %}
-        <div class="alert alert-danger">
-            <strong>Erro:</strong> {{ error }}
-            {% if error|length > 100 %}
-                <details>
-                    <summary>Detalhes</summary>
-                    <pre>{{ error }}</pre>
-                </details>
-            {% endif %}
-        </div>
+        <p class="error">{{ error }}</p>
+        {% if error|length > 100 %}
+            <details class="error-details">
+                <summary>Detalhes</summary>
+                <pre>{{ error }}</pre>
+            </details>
+        {% endif %}
     {% endif %}
-    
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="titulocapitulo">Título:</label>
@@ -23,24 +24,24 @@
         </div>
         
         <div class="form-group">
-            <label for="capacapitulo">Alterar Capa (opcional):</label>
+            <label for="capa">Alterar Capa (opcional):</label>
             <input type="file" id="capa" name="capa" accept="image/*">
-            {% if capitulo.capacapitulo%}
-                <p class="current-cover">
+            {% if capitulo.capacapitulo %}
+                <div class="current-cover">
                     <span>Capa atual:</span>
-                    <img src="{{ capitulo.capacapitulo }}" alt="Capa atual" style="max-width: 200px; display: block; margin-top: 10px;">
-                    <a href="{{ capitulo.capacapitulo}}" target="_blank" style="display: inline-block; margin-top: 5px;">Visualizar em tamanho real</a>
-                </p>
+                    <img src="{{ capitulo.capacapitulo }}" alt="Capa atual">
+                    <a href="{{ capitulo.capacapitulo }}" target="_blank" class="view-full">Visualizar em tamanho real</a>
+                </div>
             {% endif %}
+        </div>
 
-            <div class="form-group">
-                <label for="conteudocapitulo">Conteúdo do Capitulo:</label>
-                <textarea id="conteudocapitulo" name="conteudocapitulo" rows="8" required>{{ capitulo.conteudocapitulo }}</textarea>
-            </div>
+        <div class="form-group">
+            <label for="conteudocapitulo">Conteúdo do Capítulo:</label>
+            <textarea id="conteudocapitulo" name="conteudocapitulo" rows="8" required>{{ capitulo.conteudocapitulo }}</textarea>
         </div>
         
-        <div class="form-actions">
-            <button type="submit" class="btn-save">Salvar Alterações</button>
+        <div class="button-group">
+            <button type="submit">Salvar Alterações</button>
             <a href="{{ url_for('home.home') }}" class="btn-cancel">Cancelar</a>
         </div>
     </form>

@@ -1,52 +1,53 @@
 {% extends "base.html" %}
+{% block title %}Editar Livro{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/editarlivro.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="edit-container">
+<div class="ideia-container">
     <h2>Editar Livro</h2>
-    
     {% if error %}
-        <div class="alert alert-danger">
-            <strong>Erro:</strong> {{ error }}
-            {% if error|length > 100 %}
-                <details>
-                    <summary>Detalhes</summary>
-                    <pre>{{ error }}</pre>
-                </details>
-            {% endif %}
-        </div>
+        <p class="mensagem-erro">{{ error }}</p>
+        {% if error|length > 100 %}
+            <details class="erro-detalhes">
+                <summary>Detalhes</summary>
+                <pre>{{ error }}</pre>
+            </details>
+        {% endif %}
     {% endif %}
-    
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="ideia-form">
         <div class="form-group">
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulolivro" value="{{ livro.titulolivro }}" required>
+            <input type="text" id="titulo" name="titulolivro" value="{{ livro.titulolivro }}" placeholder="Título do livro" required>
         </div>
         
         <div class="form-group">
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricaolivro" required>{{ livro.descricaolivro }}</textarea>
+            <textarea id="descricao" name="descricaolivro" rows="8" placeholder="Descrição do livro" required>{{ livro.descricaolivro }}</textarea>
         </div>
 
-        <label>
-            <input type="checkbox" name="publico" {% if livro.publico %}checked{% endif %}>
-            Tornar este livro público
-        </label>
+        <div class="form-group checkbox-group">
+            <label class="checkbox-container">
+                <input type="checkbox" name="publico" {% if livro.publico %}checked{% endif %}>
+                <span class="checkbox-text">Tornar este livro público</span>
+            </label>
+        </div>
         
-        <div class="form-group">
-            <label for="capa">Alterar Capa (opcional):</label>
-            <input type="file" id="capa" name="capalivro" accept="image/*">
+        <div class="form-group file-group">
+            <label for="capa" class="file-label">Alterar Capa (opcional)</label>
+            <input type="file" id="capa" name="capalivro" accept="image/*" class="file-input">
             {% if livro.capalivro %}
-                <p class="current-cover">
+                <div class="current-cover">
                     <span>Capa atual:</span>
-                    <img src="{{ livro.capalivro }}" alt="Capa atual" style="max-width: 200px; display: block; margin-top: 10px;">
-                    <a href="{{ livro.capalivro }}" target="_blank" style="display: inline-block; margin-top: 5px;">Visualizar em tamanho real</a>
-                </p>
+                    <img src="{{ livro.capalivro }}" alt="Capa atual">
+                    <a href="{{ livro.capalivro }}" target="_blank" class="view-full">Visualizar em tamanho real</a>
+                </div>
             {% endif %}
         </div>
         
-        <div class="form-actions">
-            <button type="submit" class="btn-save">Salvar Alterações</button>
-            <a href="{{ url_for('home.home') }}" class="btn-cancel">Cancelar</a>
+        <div class="botoes-acao">
+            <button type="submit" class="btn-criar">Salvar Alterações</button>
+            <a href="{{ url_for('home.home') }}" class="btn-cancelar">Cancelar</a>
         </div>
     </form>
 </div>

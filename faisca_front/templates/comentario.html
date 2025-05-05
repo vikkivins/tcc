@@ -1,15 +1,22 @@
-<div class="comentario" data-comentario-id="{{ comentario.id }}">
+<div class="comentario" data-comentario-id="{{ comentario.id }}" data-capitulo-id="{{ capitulo.id }}" {% if 'pai_comentario_id' in comentario and comentario.pai_comentario_id %}data-pai-id="{{ comentario.pai_comentario_id }}" data-is-reply="true"{% endif %}>
     <div class="comentario-cabecalho">
         <strong>{{ comentario.usuario.username }}</strong>
         <small>{{ comentario.data_criacao }}</small>
     </div>
+    
+    {% if comentario.citacao %}
+    <blockquote class="comentario-citacao">
+        <small>{{ comentario.citacao_autor }} escreveu:</small>
+        <p>{{ comentario.citacao }}</p>
+    </blockquote>
+    {% endif %}
     
     <p class="comentario-conteudo">{{ comentario.conteudocomentario }}</p>
     
     {% if comentario.eh_autor %}
     <div class="comentario-acoes">
         <button class="btn-editar">Editar</button>
-        <form method="POST" action="{{ url_for('capitulos.excluir_comentario', comentario_id=comentario.id) }}" 
+        <form method="POST" action="{{ url_for('capitulos.excluir_comentario', comentario_id=comentario.id, capitulo_id=capitulo.id) }}" 
               onsubmit="return confirm('Tem certeza que deseja excluir este comentário?')">
             <input type="hidden" name="capitulo_id" value="{{ comentario.capitulo_id }}">
             <button type="submit" class="btn-delete">Excluir</button>
@@ -17,7 +24,7 @@
     </div>
     
     <form class="form-editar-comentario" method="POST" 
-          action="{{ url_for('capitulos.editar_comentario', comentario_id=comentario.id) }}" 
+          action="{{ url_for('capitulos.editar_comentario', capitulo_id=capitulo.id, comentario_id=comentario.id) }}" 
           style="display: none;">
         <input type="hidden" name="capitulo_id" value="{{ comentario.capitulo_id }}">
         <textarea name="conteudo" required>{{ comentario.conteudocomentario }}</textarea>
@@ -30,9 +37,11 @@
     
     <button class="btn-resposta">Responder</button>
     
-    <form class="form-resposta">
+    <form class="form-resposta" method="POST" action="{{ url_for('capitulos.adicionar_comentario', capitulo_id=capitulo.id) }}" style="display: none;">
         <textarea name="conteudo" placeholder="Escreva sua resposta..." required></textarea>
         <input type="hidden" name="comentario_id" value="{{ comentario.id }}">
+        <input type="hidden" name="comentario_citado" class="comentario-citado" value="">
+        <input type="hidden" name="comentario_citado_autor" class="comentario-citado-autor" value="{{ comentario.usuario.username }}">
         <div class="form-botoes">
             <button type="submit" class="btn-enviar">Enviar resposta</button>
             <button type="button" class="btn-cancelar">Cancelar</button>
@@ -46,117 +55,3 @@
         {% endfor %}
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Edição de comentário
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('btn-editar')) {
-            const comentarioDiv = e.target.closest('.comentario');
-            const conteudo = comentarioDiv.querySelector('.comentario-conteudo');
-            const formEdicao = comentarioDiv.querySelector('.form-editar-comentario');
-            
-            conteudo.style.display = 'none';
-            formEdicao.style.display = 'block';
-            e.target.style.display = 'none';
-        }
-        
-        if (e.target.classList.contains('btn-cancelar-edicao')) {
-            const form = e.target.closest('.form-editar-comentario');
-            const comentarioDiv = form.closest('.comentario');
-            
-            form.style.display = 'none';
-            comentarioDiv.querySelector('.comentario-conteudo').style.display = 'block';
-            comentarioDiv.querySelector('.btn-editar').style.display = 'inline';
-        }
-    });
-    
-    // Envio do formulário de edição
-    document.addEventListener('submit', function(e) {
-        if (e.target.classList.contains('form-editar-comentario')) {
-            e.preventDefault();
-            
-            const form = e.target;
-            const formData = new FormData(form);
-            const comentarioDiv = form.closest('.comentario');
-            const btnEditar = comentarioDiv.querySelector('.btn-editar');
-            const conteudo = comentarioDiv.querySelector('.comentario-conteudo');
-            
-            // Mostrar indicador de carregamento
-            const btnSalvar = form.querySelector('.btn-salvar');
-            btnSalvar.disabled = true;
-            btnSalvar.textContent = 'Salvando...';
-            
-            fetch(`${form.action}?capitulo_id=${comentarioDiv.dataset.capituloId}`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    conteudo.textContent = data.conteudo;
-                    form.style.display = 'none';
-                    conteudo.style.display = 'block';
-                    btnEditar.style.display = 'inline';
-                } else {
-                    alert('Erro ao atualizar comentário: ' + (data.error || ''));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Erro ao atualizar comentário');
-            })
-            .finally(() => {
-                btnSalvar.disabled = false;
-                btnSalvar.textContent = 'Salvar';
-            });
-        }
-        
-        // Restante do seu código para respostas...
-        if (e.target.classList.contains('form-resposta')) {
-            e.preventDefault();
-            const form = e.target;
-            const capituloId = new URL(form.action).pathname.split('/')[2];
-            const formData = new FormData(form);
-            
-            fetch(`${form.action}?capitulo_id=${comentarioDiv.dataset.capituloId}`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => {
-                if (response.redirected) {
-                    window.location.href = response.url;
-                }
-                return response.json();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    });
-    
-    // Delegação de eventos para os botões de resposta
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('btn-resposta')) {
-            const comentario = e.target.closest('.comentario');
-            const form = comentario.querySelector('.form-resposta');
-            form.style.display = 'block';
-            e.target.style.display = 'none';
-        }
-        
-        if (e.target.classList.contains('btn-cancelar')) {
-            const form = e.target.closest('.form-resposta');
-            form.style.display = 'none';
-            form.closest('.comentario').querySelector('.btn-resposta').style.display = 'inline';
-        }
-    });
-});
-</script>

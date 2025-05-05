@@ -1,0 +1,213 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f0f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.ideia-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+}
+
+h2 {
+    color: #4a0e4e;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Formulário de livro */
+.ideia-form {
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #d1c4e9;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    resize: vertical;
+    border: 1px solid #d1c4e9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    min-height: 200px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #8e44ad;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.2);
+}
+
+/* Checkbox personalizado */
+.checkbox-group {
+    margin-bottom: 20px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    accent-color: #8e44ad;
+}
+
+.checkbox-text {
+    font-size: 16px;
+}
+
+/* Estilo para input de arquivo */
+.file-group {
+    margin-bottom: 25px;
+}
+
+.file-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #4a0e4e;
+    font-weight: bold;
+}
+
+.file-input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+}
+
+/* Capa atual */
+.current-cover {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f9f5ff;
+    border-radius: 8px;
+    border: 1px dashed #d1c4e9;
+}
+
+.current-cover span {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #4a0e4e;
+}
+
+.current-cover img {
+    max-width: 200px;
+    display: block;
+    margin: 10px 0;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.current-cover .view-full {
+    display: inline-block;
+    margin-top: 10px;
+    color: #8e44ad;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.current-cover .view-full:hover {
+    text-decoration: underline;
+}
+
+/* Botões */
+.botoes-acao {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn-criar {
+    padding: 12px 25px;
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    flex-grow: 1;
+}
+
+.btn-criar:hover {
+    background-color: #9b59b6;
+}
+
+.btn-cancelar {
+    padding: 12px 25px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    flex-grow: 1;
+}
+
+.btn-cancelar:hover {
+    background-color: #c0392b;
+}
+
+/* Mensagem de erro */
+.mensagem-erro {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #c62828;
+}
+
+/* Detalhes do erro */
+.erro-detalhes {
+    margin-bottom: 20px;
+    background-color: #f8f8f8;
+    border-radius: 6px;
+    padding: 5px 10px;
+}
+
+.erro-detalhes summary {
+    cursor: pointer;
+    color: #c62828;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+.erro-detalhes pre {
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 5px 0;
+}

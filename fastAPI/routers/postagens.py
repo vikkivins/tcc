@@ -21,7 +21,6 @@ async def listar_postagens(
     postagens = (
         db.query(Postagem)
         .order_by(Postagem.datacriacao.desc())
-        .filter(Postagem.usuario_id != current_user.id)
         .offset(skip)
         .limit(limit)
         .all()
@@ -63,7 +62,7 @@ async def atualizar_postagem(
         db=db,
         postagem_id=postagem_id,
         conteudopostagem=postagem.conteudopostagem,
-        datacriacao=postagem.data_criacao
+        datacriacao=postagem.datacriacao
     )
     return postagem_atualizada
 

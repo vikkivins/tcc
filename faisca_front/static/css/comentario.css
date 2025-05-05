@@ -1,109 +1,285 @@
 /* Estilos para a seção de comentários */
+.comentarios-section {
+    max-width: 800px;
+    margin: 30px auto 50px;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+}
+
+.comentarios-section h3 {
+    color: #4a0e4e;
+    font-size: 22px;
+    margin: 0 0 20px 0;
+    text-align: center;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.comentarios-section h3:after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #8e44ad;
+    margin: 10px auto 0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Formulário de comentário principal */
+.comentario-form {
+    margin-bottom: 30px;
+    background-color: #f8f4fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #8e44ad;
+}
+
+.comentario-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.comentario-form textarea:focus {
+    outline: none;
+    border-color: #8e44ad;
+    box-shadow: 0 0 5px rgba(142, 68, 173, 0.3);
+}
+
+.comentario-form button {
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    float: right;
+}
+
+.comentario-form button:hover {
+    background-color: #9b59b6;
+}
+
+/* Lista de comentários */
+.comentarios-lista {
+    margin-top: 20px;
+}
+
+/* Estilo da citação */
+.comentario-citacao {
+    background-color: #f0e6f7;
+    padding: 10px 15px;
+    border-left: 3px solid #8e44ad;
+    margin: 5px 0 15px;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.comentario-citacao small {
+    display: block;
+    color: #8e44ad;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comentario-citacao p {
+    margin: 0;
+    font-style: italic;
+}
+
+/* Comentário individual */
 .comentario {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background: #f9f9f9;
-    border-radius: 5px;
-    border-left: 3px solid #ddd;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #f8f4fa;
+    border-radius: 8px;
+    border-left: 3px solid #9b59b6;
     position: relative;
 }
 
 /* Comentários aninhados (respostas) */
 .comentario .comentario {
-    margin-left: 40px;
-    margin-top: 1rem;
+    margin-left: 30px;
+    margin-top: 15px;
+    border-left: 1px dashed #9b59b6;
+    padding-left: 15px;
 }
 
 .comentario-cabecalho {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.comentario-cabecalho strong {
+    font-weight: bold;
+    color: #4a0e4e;
 }
 
 .comentario-cabecalho small {
-    color: #666;
+    color: #9b59b6;
+    font-size: 12px;
 }
 
 .comentario-conteudo {
-    margin: 0.5rem 0;
+    margin: 10px 0;
+    line-height: 1.5;
     white-space: pre-line;
 }
 
+/* Ações do comentário (editar, excluir) */
+.comentario-acoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+    align-items: center;
+}
+
+.btn-editar {
+    background: none;
+    border: none;
+    color: #8e44ad;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 0;
+}
+
+.btn-editar:hover {
+    text-decoration: underline;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* Botão de resposta */
 .btn-resposta {
     background: none;
     border: none;
-    color: #0066cc;
+    color: #8e44ad;
     cursor: pointer;
     padding: 0;
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
+    font-size: 0.9em;
+    margin-top: 10px;
+    display: inline-block;
 }
 
 .btn-resposta:hover {
     text-decoration: underline;
 }
 
+/* Formulário de edição de comentário */
+.form-editar-comentario {
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #f0e6f7;
+    border-radius: 6px;
+    border-left: 2px solid #8e44ad;
+}
+
+.form-editar-comentario textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+/* Formulário de resposta */
 .form-resposta {
-    display: none;
-    margin-top: 1rem;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #f0e6f7;
+    border-radius: 6px;
+    border-left: 2px solid #8e44ad;
 }
 
 .form-resposta textarea {
     width: 100%;
     min-height: 80px;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    margin-bottom: 10px;
+    font-family: inherit;
     resize: vertical;
 }
 
+/* Botões de formulários */
 .form-botoes {
     display: flex;
-    gap: 0.5rem;
+    gap: 10px;
 }
 
-.btn-enviar {
+.btn-salvar, .btn-enviar {
     background-color: #4CAF50;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 8px 15px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: bold;
 }
 
-.btn-cancelar {
+.btn-salvar:hover, .btn-enviar:hover {
+    background-color: #45a049;
+}
+
+.btn-cancelar, .btn-cancelar-edicao {
     background-color: #f44336;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 8px 15px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
+.btn-cancelar:hover, .btn-cancelar-edicao:hover {
+    background-color: #d32f2f;
+}
+
+/* Respostas */
 .respostas {
-    margin-top: 1rem;
+    margin-top: 15px;
 }
 
-.comentario-acoes {
-    margin-top: 5px;
-}
-
-.comentario-acoes form {
-    display: inline;
-}
-
-.btn-editar,
-.btn-excluir {
-    background-color: transparent;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    margin-right: 5px;
-    font-size: 0.9em;
-}
-
-.btn-excluir {
-    color: #dc3545;
+/* Responsividade */
+@media (max-width: 600px) {
+    .comentario .comentario {
+        margin-left: 15px;
+    }
+    
+    .form-botoes {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .btn-salvar, .btn-enviar, .btn-cancelar, .btn-cancelar-edicao {
+        width: 100%;
+    }
 }

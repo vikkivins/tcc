@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %}Configurações{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/configuracoes.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="settings-container">
     <h2>Configurações da Conta</h2>

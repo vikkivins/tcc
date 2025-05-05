@@ -1,30 +1,37 @@
 {% extends "base.html" %}
+{% block title %}Criar uma Obra{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/criarlivro.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="create-container">
+<div class="livro-container">
     <h2>Criar Novo Livro</h2>
     {% if error %}
-        <p class="error">{{ error }}</p>
+        <p class="mensagem-erro">{{ error }}</p>
     {% endif %}
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="livro-form">
         <div class="form-group">
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" required>
+            <input type="text" id="titulo" name="titulo" placeholder="Título do livro" required>
         </div>
         <div class="form-group">
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao" required></textarea>
+            <textarea id="descricao" name="descricao" placeholder="Descrição do livro" required></textarea>
         </div>
-        <div class="form-group">
-            <label for="capa">Capa (opcional):</label>
+        <div class="form-group capa-upload">
+            <label for="capa" class="capa-label">Capa do livro (opcional)</label>
             <input type="file" id="capa" name="capa" accept="image/*">
         </div>
-        <label>
-            <input type="checkbox" name="publico" {% if livro and livro.publico %}checked{% endif %}>
-            Tornar este livro público
-        </label>        
-        <button type="submit">Criar Livro</button>
-        <a href="{{ url_for('home.home') }}" class="btn-cancel">Cancelar</a>
+        <div class="form-group checkbox-container">
+            <label class="checkbox-label">
+                <input type="checkbox" name="publico" {% if livro and livro.publico %}checked{% endif %}>
+                <span>Tornar este livro público</span>
+            </label>
+        </div>
+        <div class="botoes-acao">
+            <button type="submit" class="btn-criar">Criar Livro</button>
+            <a href="{{ url_for('home.home') }}" class="btn-cancelar">Cancelar</a>
+        </div>
     </form>
 </div>
 {% endblock %}

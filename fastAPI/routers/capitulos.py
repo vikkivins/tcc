@@ -1,4 +1,6 @@
+# capitulos.py (api)
 from CRUD.capitulocrud import create_capitulo, get_capitulos, get_capitulo, update_capitulo, delete_capitulo
+from CRUD.comentariocrud import create_comentario, get_comentarios, get_comentario, update_comentario, delete_comentario
 from schemas.capituloschemas import CapituloCreate, CapituloUpdate, CapituloResponse
 from schemas.comentarioschemas import ComentarioResponse, ComentarioCreate, ComentarioUpdate
 from typing import List
@@ -95,18 +97,52 @@ def create_comentario_endpoint(
                 status_code=400,
                 detail="Comentário pai não encontrado ou não pertence a este capítulo"
             )
-    
-    # Criar novo comentário
-    novo_comentario = Comentario(
+
+    # Usar a função de CRUD para criar o comentário
+    novo_comentario = create_comentario(
+        db=db,
+        datacriacao=datetime.now(timezone.utc),
         conteudocomentario=comentario.conteudocomentario,
-        datacriacao = datetime.now(timezone.utc),
         usuario_id=current_user.id,
         capitulo_id=capitulo_id,
-        comentario_id=comentario.comentario_id  # se for resposta a outro comentário
+        comentario_id=comentario.comentario_id,
+        citacao=comentario.citacao,
+        citacao_autor=comentario.citacao_autor
     )
 
-    db.add(novo_comentario)
-    db.commit()
-    db.refresh(novo_comentario)
-
     return novo_comentario
+
+@router.put("/{capitulo_id}/comentarios/{comentario_id}", response_model=ComentarioResponse)
+def update_comentario_endpoint(
+    capitulo_id: int,
+    comentario_id: int,
+    comentario_update: ComentarioUpdate,
+    db: Session = Depends(get_db),
+    current_user: Usuario = Depends(get_current_user)
+):
+    db_comentario = get_comentario(db=db, comentario_id=comentario_id)
+    
+    if not db_comentario or db_comentario.capitulo_id != capitulo_id:
+        raise HTTPException(status_code=404, detail="Comentário não encontrado")
+    
+    if db_comentario.usuario_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Você não tem permissão para editar este comentário")
+
+    return update_comentario(db=db, comentario_id=comentario_id, conteudocomentario=comentario_update.conteudocomentario)
+
+@router.delete("/{capitulo_id}/comentarios/{comentario_id}", response_model=ComentarioResponse)
+def delete_comentario_endpoint(
+    capitulo_id: int,
+    comentario_id: int,
+    db: Session = Depends(get_db),
+    current_user: Usuario = Depends(get_current_user)
+):
+    db_comentario = get_comentario(db=db, comentario_id=comentario_id)
+
+    if not db_comentario or db_comentario.capitulo_id != capitulo_id:
+        raise HTTPException(status_code=404, detail="Comentário não encontrado")
+    
+    if db_comentario.usuario_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Você não tem permissão para excluir este comentário")
+
+    return delete_comentario(db=db, comentario_id=comentario_id)

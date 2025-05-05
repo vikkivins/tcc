@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% block title %}{{ capitulo.titulocapitulo }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/capitulo.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/comentario.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="ideia-container">
@@ -40,4 +46,7 @@
     </div>
 </div>
 
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/comentario.js') }}"></script>
 {% endblock %}

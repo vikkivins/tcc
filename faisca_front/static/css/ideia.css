@@ -1,0 +1,113 @@
+/* Estilos para a página de ideia */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f0f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.ideia-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    margin-bottom: 50px;
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+}
+
+/* Título da ideia */
+.ideia-container h2 {
+    font-size: 28px;
+    color: #4a0e4e;
+    margin: 0 0 20px 0;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+}
+
+.ideia-container h2:after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #8e44ad;
+    margin: 10px auto 0;
+}
+
+/* Conteúdo da ideia */
+.ideia-container p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Data de criação */
+.ideia-container small {
+    font-size: 14px;
+    color: #9b59b6;
+    display: block;
+    text-align: right;
+    margin-top: 15px;
+}
+
+/* Botões de ação */
+.ideia-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.btn-edit, .btn-delete {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-edit {
+    background-color: #8e44ad;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #9b59b6;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* Mensagem de erro */
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #c62828;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .ideia-actions {
+        flex-direction: column;
+    }
+
+    .btn-edit, .btn-delete {
+        width: 100%;
+    }
+}

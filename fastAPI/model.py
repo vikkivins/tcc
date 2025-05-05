@@ -100,6 +100,9 @@ class Comentario(Base):
     usuario_id = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
     capitulo_id = Column(Integer, ForeignKey('capitulos.id'), nullable=False)
     comentario_id = Column(Integer, ForeignKey('comentarios.id'), nullable=True)
+    
+    citacao = Column(Text, nullable=True)
+    citacao_autor = Column(String(255), nullable=True)
 
     usuario = relationship("Usuario")
     capitulo = relationship("Capitulo")

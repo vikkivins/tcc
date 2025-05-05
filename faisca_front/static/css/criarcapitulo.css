@@ -1,0 +1,152 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f0f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.create-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+}
+
+h2 {
+    color: #4a0e4e;
+    font-size: 26px;
+    margin-bottom: 25px;
+    text-align: center;
+    position: relative;
+}
+
+h2:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #8e44ad;
+    margin: 10px auto 0;
+}
+
+/* Estilos de formulário */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #4a0e4e;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1c4e9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #8e44ad;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.2);
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px dashed #d1c4e9;
+    border-radius: 8px;
+    background-color: #f8f4fa;
+    font-size: 14px;
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    resize: vertical;
+    border: 1px solid #d1c4e9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    min-height: 250px;
+}
+
+textarea:focus {
+    border-color: #8e44ad;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.2);
+}
+
+/* Botões */
+button[type="submit"] {
+    padding: 12px 24px;
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-right: 15px;
+}
+
+button[type="submit"]:hover {
+    background-color: #9b59b6;
+}
+
+.btn-cancel {
+    padding: 12px 24px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #c0392b;
+}
+
+/* Mensagem de erro */
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #c62828;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .create-container {
+        padding: 20px 15px;
+        margin: 15px;
+    }
+    
+    button[type="submit"],
+    .btn-cancel {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+}

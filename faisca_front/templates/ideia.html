@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block title %}{{ ideia.tituloideia }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ideia.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="ideia-container">

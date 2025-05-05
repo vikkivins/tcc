@@ -8,9 +8,10 @@ from datetime import datetime, timezone
 #     capitulo_id: int
 #     comentario_id: int
 
-def create_comentario(db: Session, datacriacao: str, conteudocomentario: str, usuario_id: int, capitulo_id: int, comentario_id: int):
+def create_comentario(db: Session, datacriacao: str, conteudocomentario: str, usuario_id: int, capitulo_id: int, comentario_id: int, citacao:str, citacao_autor:str):
     
-    db_comentario = Comentario(datacriacao=datetime.now(timezone.utc), conteudocomentario=conteudocomentario, usuario_id=usuario_id, capitulo_id=capitulo_id, comentario_id=comentario_id)
+    db_comentario = Comentario(datacriacao=datetime.now(timezone.utc), conteudocomentario=conteudocomentario, usuario_id=usuario_id, capitulo_id=capitulo_id, 
+                               comentario_id=comentario_id, citacao=citacao, citacao_autor=citacao_autor)
     db.add(db_comentario)
     db.commit()
     db.refresh(db_comentario)

@@ -23,6 +23,17 @@ def listar_postagens():
 
         if response.status_code == 200:
             postagens_data = response.json()
+            for postagem in postagens_data:
+                if 'usuario' not in postagem and 'usuario_id' in postagem:
+                    try:
+                        user_response = requests.get(f"{API_BASE_URL}/usuarios/{postagem['usuario_id']}", headers=headers)
+                        if user_response.status_code == 200:
+                            postagem['usuario'] = user_response.json()
+                        else:
+                            postagem['usuario'] = {'username': f"Usuário #{postagem['usuario_id']}"}
+                    except:
+                        postagem['usuario'] = {'username': f"Usuário #{postagem['usuario_id']}"}
+
             print("Dados recebidos da API:", postagens_data)
             return render_template('postagem.html', postagens=postagens_data, page=page)
 
@@ -63,6 +74,8 @@ def editar_postagem(id):
 
     conteudo = request.form.get('conteudopostagem')
     datacriacao = request.form.get('datacriacao')
+    
+    print(f"Editando postagem {id} com conteúdo: {conteudo} e data: {datacriacao}")
 
     headers = {'Authorization': f"Bearer {session['access_token']}"}
     payload = {
@@ -70,7 +83,16 @@ def editar_postagem(id):
         "datacriacao": datacriacao
     }
 
-    response = requests.put(f"{API_BASE_URL}/postagens/{id}", headers=headers, json=payload)
+    try:
+        response = requests.put(f"{API_BASE_URL}/postagens/{id}", headers=headers, json=payload)
+        
+        if response.status_code == 200:
+            print("Postagem atualizada com sucesso")
+        else:
+            print(f"Erro ao atualizar postagem: {response.status_code} - {response.text}")
+            
+    except Exception as e:
+        print(f"Erro ao enviar requisição: {str(e)}")
 
     return redirect(url_for('postagem.listar_postagens'))
 
@@ -80,7 +102,17 @@ def excluir_postagem(id):
         return redirect(url_for('auth.login'))
 
     headers = {'Authorization': f"Bearer {session['access_token']}"}
-    response = requests.delete(f"{API_BASE_URL}/postagens/{id}", headers=headers)
+    
+    try:
+        response = requests.delete(f"{API_BASE_URL}/postagens/{id}", headers=headers)
+        
+        if response.status_code == 200:
+            print("Postagem excluída com sucesso")
+        else:
+            print(f"Erro ao excluir postagem: {response.status_code} - {response.text}")
+            
+    except Exception as e:
+        print(f"Erro ao enviar requisição: {str(e)}")
 
     return redirect(url_for('postagem.listar_postagens'))
 

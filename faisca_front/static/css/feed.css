@@ -1,7 +1,6 @@
-/* Estilos gerais */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #f5f0f9;
     margin: 0;
     padding: 0;
     color: #333;
@@ -10,38 +9,64 @@ body {
 .home-container {
     max-width: 700px;
     margin: 30px auto;
-    padding: 20px;
+    padding: 25px;
     background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+}
+
+h2 {
+    color: #4a0e4e;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.separador {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(142, 68, 173, 0), rgba(142, 68, 173, 0.75), rgba(142, 68, 173, 0));
+    margin: 25px 0;
 }
 
 /* Formulário de nova postagem */
-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    resize: vertical;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
-    box-sizing: border-box;
+.nova-postagem-form {
+    margin-bottom: 10px;
 }
 
-form button {
+form textarea {
+    width: 100%;
+    padding: 15px;
     margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #4CAF50;
+    resize: vertical;
+    border: 1px solid #d1c4e9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    min-height: 100px;
+}
+
+form textarea:focus {
+    border-color: #8e44ad;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.2);
+}
+
+.btn-publicar {
+    margin-top: 12px;
+    padding: 10px 20px;
+    background-color: #8e44ad;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
-form button:hover {
-    background-color: #45a049;
+.btn-publicar:hover {
+    background-color: #9b59b6;
 }
 
 /* Estilo das postagens */
@@ -50,30 +75,38 @@ form button:hover {
 }
 
 .postagem-card {
-    background-color: #f1f1f1;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    background-color: #f8f4fa;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(142, 68, 173, 0.1);
+    border-left: 4px solid #8e44ad;
 }
 
-.postagem-card p {
+.postagem-content {
+    position: relative;
+}
+
+.post-text {
     margin: 10px 0;
+    line-height: 1.5;
+    font-size: 16px;
 }
 
-.postagem-card textarea {
+.edit-textarea {
     width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #d1c4e9;
     border-radius: 6px;
+    min-height: 80px;
 }
 
 .postagem-card .data {
     display: block;
-    margin-top: 10px;
-    font-size: 12px;
-    color: #777;
+    margin-top: 15px;
+    font-size: 13px;
+    color: #9b59b6;
 }
 
 /* Botões de ação */
@@ -81,28 +114,87 @@ form button:hover {
     display: inline;
 }
 
-.postagem-card button {
-    margin-top: 8px;
-    background-color: #2196F3;
+.btn-save {
+    margin-top: 10px;
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
-.postagem-card button:hover {
-    background-color: #0b7dda;
+.btn-save:hover {
+    background-color: #9b59b6;
+}
+
+.btn-exclude {
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-exclude:hover {
+    background-color: #ffb43c;
+}
+
+.delete-form {
+    display: inline-block;
+}
+
+.btn-edit {
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-edit:hover {
+    background-color: #350a38;
 }
 
 /* Paginação */
 .paginacao {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
-.paginacao a {
+.pag-link {
     margin: 0 10px;
     text-decoration: none;
-    color: #2196F3;
+    color: #8e44ad;
     font-weight: bold;
+    transition: color 0.3s ease;
 }
 
-.paginacao span {
+.pag-link:hover {
+    color: #9b59b6;
+    text-decoration: underline;
+}
+
+.pag-atual {
     font-weight: bold;
+    color: #4a0e4e;
+}
+
+.mensagem-vazia {
+    text-align: center;
+    color: #666;
+    padding: 30px 0;
+    font-style: italic;
 }

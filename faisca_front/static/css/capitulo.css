@@ -1,0 +1,322 @@
+/* Estilos gerais para a página de visualização de capítulo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f0f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.ideia-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 35px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+    position: relative;
+}
+
+/* Título do capítulo */
+.ideia-container h2 {
+    font-size: 28px;
+    color: #4a0e4e;
+    margin: 0 0 25px 0;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.ideia-container h2:after {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 3px;
+    background: #8e44ad;
+    margin: 15px auto 0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Conteúdo do capítulo */
+.ideia-container p {
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    text-align: justify;
+}
+
+/* Data de criação */
+.ideia-container small {
+    display: block;
+    font-size: 14px;
+    color: #9b59b6;
+    text-align: right;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+/* Mensagem de erro */
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #c62828;
+}
+
+/* Botões de ação */
+.ideia-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.btn-edit, .btn-delete {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}
+
+.btn-edit {
+    background-color: #8e44ad;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #9b59b6;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* Seção de comentários */
+.comentarios-section {
+    max-width: 800px;
+    margin: 30px auto 50px;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+}
+
+.comentarios-section h3 {
+    color: #4a0e4e;
+    font-size: 22px;
+    margin: 0 0 20px 0;
+    text-align: center;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.comentarios-section h3:after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #8e44ad;
+    margin: 10px auto 0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Formulário de comentário */
+.comentario-form {
+    margin-bottom: 30px;
+    background-color: #f8f4fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #8e44ad;
+}
+
+.comentario-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.comentario-form textarea:focus {
+    outline: none;
+    border-color: #8e44ad;
+    box-shadow: 0 0 5px rgba(142, 68, 173, 0.3);
+}
+
+.comentario-form button {
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    float: right;
+}
+
+.comentario-form button:hover {
+    background-color: #9b59b6;
+}
+
+/* Lista de comentários */
+.comentarios-lista {
+    margin-top: 20px;
+}
+
+/* Estilos para comentários individuais (complemento ao comentario.html) */
+.comentario {
+    background-color: #f8f4fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 3px solid #9b59b6;
+}
+
+.comentario-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.comentario-autor {
+    font-weight: bold;
+    color: #4a0e4e;
+}
+
+.comentario-data {
+    font-size: 12px;
+    color: #9b59b6;
+}
+
+.comentario-conteudo {
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.comentario-acoes {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+}
+
+.btn-responder, .btn-editar-comentario, .btn-excluir-comentario {
+    color: #8e44ad;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.btn-responder:hover, .btn-editar-comentario:hover {
+    text-decoration: underline;
+}
+
+.btn-excluir-comentario {
+    color: #e74c3c;
+}
+
+.btn-excluir-comentario:hover {
+    text-decoration: underline;
+}
+
+/* Respostas aninhadas */
+.respostas {
+    margin-left: 30px;
+    margin-top: 15px;
+    border-left: 1px dashed #9b59b6;
+    padding-left: 15px;
+}
+
+/* Formulário de resposta */
+.resposta-form {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #f0e6f7;
+    border-radius: 6px;
+    border-left: 2px solid #8e44ad;
+}
+
+.resposta-form textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.resposta-form button {
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.resposta-form button:hover {
+    background-color: #9b59b6;
+}
+
+.resposta-form .cancelar {
+    background-color: #aaa;
+    margin-right: 10px;
+}
+
+.resposta-form .cancelar:hover {
+    background-color: #888;
+}
+
+/* Estilo para mensagem quando não há comentários */
+.sem-comentarios {
+    text-align: center;
+    color: #666;
+    padding: 20px 0;
+    font-style: italic;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .ideia-container, .comentarios-section {
+        padding: 20px 15px;
+    }
+    
+    .ideia-actions {
+        flex-direction: column;
+    }
+    
+    .btn-edit, .btn-delete {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .respostas {
+        margin-left: 15px;
+    }
+}
