@@ -7,6 +7,7 @@ from routes.ideias import ideias_bp
 from routes.livros import livros_bp
 from routes.explorar import explorar_bp
 from routes.postagens import postagem_bp
+from routes.perfil import perfil_bp
 
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_aqui'  # Mude para uma chave segura em produção
@@ -19,6 +20,8 @@ app.register_blueprint(capitulos_bp, url_prefix='/capitulos')
 app.register_blueprint(ideias_bp, url_prefix='/ideias')
 app.register_blueprint(usuario_bp, url_prefix='/usuario')
 app.register_blueprint(postagem_bp, url_prefix='/postagens')
+app.register_blueprint(perfil_bp, url_prefix='/perfil')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

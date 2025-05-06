@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+{% block title %}nome do user{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="div1">
+            <div class="profile-container">
+                <div class="profile-photo">
+                    <div class="photo-overlay">
+                        <div class="camera-icon"><i class="bi bi-camera-fill"></i></div>
+                        <div class="overlay-text">Atualizar foto de perfil</div>
+                    </div>
+                </div>
+                <div class="accent-circle"></div>
+            </div>
+        </div>
+        <div class="div2">
+            <div class="user-info">
+                <h2 class="user-naming">Nome do Usuário</h2>
+                <span class="user-handle">username · pro/nome</span>
+                <p class="user-description">Descrição personalizada do usuário, com limitação de caracteres a 300 caracteres e tudo mais.</p>
+                <button class="edit-button">Editar perfil</button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="badges-section">
+                <h3 class="section-title">Emblemas</h3>
+                <div class="badge-item">
+                    <div class="badge-icon writing"></div>
+                    <span class="badge-text">Escrevendo assiduamente!</span>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-icon editing"></div>
+                    <span class="badge-text">Editando com o coração!</span>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-icon reading"></div>
+                    <span class="badge-text">Lendo vorazmente!</span>
+                </div>
+                <button class="edit-button">Editar emblemas</button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="availability-section">
+                <h3 class="section-title">Disponibilidade</h3>
+                <div class="availability-item">
+                    <div class="availability-icon available"></div>
+                    <span class="availability-text">Disponível para editar</span>
+                </div>
+                <div class="availability-item">
+                    <div class="availability-icon unavailable"></div>
+                    <span class="availability-text">Indisponível para editar</span>
+                </div>
+                <button class="edit-button">Editar disponibilidade</button>
+            </div>
+        </div>
+        <div class="div3">
+            <h2 class="section-heading">Últimas Atualizações</h2>
+            <div class="updates-container">
+                <div class="update-card">
+                    <div class="card-thumbnail">
+                        Capa da obra
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">Atualização de obra título</div>
+                        <div class="card-description">Breve descrição da atualização da obra com um limite de caracteres para caber na card...</div>
+                        <div class="card-tag">
+                            <div class="tag-dot orange-dot"></div>
+                            <span>Tag pra saber o tipo de atualização</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="update-card">
+                    <div class="card-thumbnail">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">Atualização de postagem no perfil título</div>
+                        <div class="card-description">Breve descrição da atualização do obra com um limite de caracteres para caber no card...</div>
+                        <div class="card-tag">
+                            <div class="tag-dot orange-dot"></div>
+                            <span>Tag pra saber o tipo de atualização</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div4">
+            <div class="writing-calendar">
+                <h2 class="section-heading">{{ quantidade }} 0 dias escrevendo! <img class="img-foguinho" src="{{ url_for('static', filename='videos/foguinho-gif.gif') }}" alt="foguinho em pixel art"></h2>
+                <div class="calendar-container">
+                    <div class="month-calendar">
+                        <div class="month-days-header">
+                            <span>D</span>
+                            <span>S</span>
+                            <span>T</span>
+                            <span>Q</span>
+                            <span>Q</span>
+                            <span>S</span>
+                            <span>S</span>
+                        </div>
+                        <div class="month-grid">
+                            {% for i in range(35) %}
+                            <div class="day-square active"></div>
+                            {% endfor %}
+                        </div>
+                        <div class="month-name">JANUARY</div>
+                    </div>
+
+                    <div class="month-calendar">
+                        <div class="month-days-header">
+                            <span>D</span>
+                            <span>S</span>
+                            <span>T</span>
+                            <span>Q</span>
+                            <span>Q</span>
+                            <span>S</span>
+                            <span>S</span>
+                        </div>
+                        <div class="month-grid">
+                            {% for i in range(35) %}
+                            <div class="day-square active"></div>
+                            {% endfor %}
+                        </div>
+                        <div class="month-name">FEBRUARY</div>
+                    </div>
+
+                    <div class="month-calendar">
+                        <div class="month-days-header">
+                            <span>D</span>
+                            <span>S</span>
+                            <span>T</span>
+                            <span>Q</span>
+                            <span>Q</span>
+                            <span>S</span>
+                            <span>S</span>
+                        </div>
+                        <div class="month-grid">
+                            {% for i in range(35) %}
+                            <div class="day-square active"></div>
+                            {% endfor %}
+                        </div>
+                        <div class="month-name">MARCH</div>
+                    </div>
+
+                    <div class="month-calendar">
+                        <div class="month-days-header">
+                            <span>D</span>
+                            <span>S</span>
+                            <span>T</span>
+                            <span>Q</span>
+                            <span>Q</span>
+                            <span>S</span>
+                            <span>S</span>
+                        </div>
+                        <div class="month-grid">
+                            {% for i in range(35) %}
+                            <div class="day-square active"></div>
+                            {% endfor %}
+                        </div>
+                        <div class="month-name">APRIL</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div5">
+            <div class="obras-section">
+                <h2 class="section-heading">Minhas Obras</h2>
+                <div class="book-carousel-container">
+                    <button class="carousel-button prev">&lt;</button>
+                    <div class="book-carousel">
+                        <!-- Para testes, vamos incluir alguns itens estáticos -->
+                        <a href="#" class="book-item">
+                            <div class="book-content">
+                                <span class="book-name">Título da Obra 1</span>
+                                <p class="book-description">Uma breve descrição sobre o conteúdo desta obra...</p>
+                                <div class="autor-info">
+                                    <span class="autor-username">Seu Nome</span>
+                                </div>
+                                <small class="data-criacao">Criado em: 01/04/2025</small>
+                            </div>
+                        </a>
+                        <a href="#" class="book-item">
+                            <div class="book-content">
+                                <span class="book-name">Título da Obra 2</span>
+                                <p class="book-description">Uma narrativa envolvente que captura a imaginação dos leitores...</p>
+                                <div class="autor-info">
+                                    <span class="autor-username">Seu Nome</span>
+                                </div>
+                                <small class="data-criacao">Criado em: 15/03/2025</small>
+                            </div>
+                        </a>
+                        <a href="#" class="book-item">
+                            <div class="book-content">
+                                <span class="book-name">Título da Obra 3</span>
+                                <p class="book-description">Uma história de superação e descobertas inesperadas...</p>
+                                <div class="autor-info">
+                                    <span class="autor-username">Seu Nome</span>
+                                </div>
+                                <small class="data-criacao">Criado em: 28/02/2025</small>
+                            </div>
+                        </a>
+                        <a href="#" class="book-item">
+                            <div class="book-content">
+                                <span class="book-name">Título da Obra 4</span>
+                                <p class="book-description">Um conto inspirador sobre jornadas e aprendizados...</p>
+                                <div class="autor-info">
+                                    <span class="autor-username">Seu Nome</span>
+                                </div>
+                                <small class="data-criacao">Criado em: 10/01/2025</small>
+                            </div>
+                        </a>
+                        <a href="#" class="book-item">
+                            <div class="book-content">
+                                <span class="book-name">Título da Obra 5</span>
+                                <p class="book-description">Uma aventura épica com personagens memoráveis...</p>
+                                <div class="autor-info">
+                                    <span class="autor-username">Seu Nome</span>
+                                </div>
+                                <small class="data-criacao">Criado em: 05/01/2025</small>
+                            </div>
+                        </a>
+                    </div>
+                    <button class="carousel-button next">&gt;</button>
+                </div>
+                <div class="view-all-link">
+                    <a href="#">Ver tudo</a>
+                </div>
+            </div>
+        </div>
+        <div class="div6">
+            <div class="timeline-section">
+                <h2 class="section-heading">Timeline</h2><div class="view-all-link"><a href="#">Ver tudo</a></div>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="user-avatar">
+                            <div class="avatar-top"></div>
+                            <div class="avatar-bottom"></div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="username">~ username</span>
+                                <span class="timeline-text">Atualização do usuário na timeline com número de caracteres restringido...</span>
+                            </div>
+                            <div class="timeline-footer">
+                                <span class="time-ago">há 5 minutos</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="user-avatar">
+                            <div class="avatar-top"></div>
+                            <div class="avatar-bottom"></div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="username">~ username</span>
+                                <span class="timeline-text">Atualização do usuário na timeline com número de caracteres restringido...</span>
+                            </div>
+                            <div class="timeline-footer">
+                                <span class="date">dd/mm/ano</span>
+                                <span class="time">hora:minutos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="manage-posts">
+                    <span>— Gerenciar minhas publicações —</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Função para lidar com os botões do carrossel
+    function setupCarousel(containerSelector) {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+        
+        const carousel = container.querySelector('.book-carousel');
+        const prevBtn = container.querySelector('.carousel-button.prev');
+        const nextBtn = container.querySelector('.carousel-button.next');
+        
+        if (!carousel || !prevBtn || !nextBtn) return;
+        
+        // Distância de rolagem (largura do item + gap)
+        const scrollDistance = 220; // Aproximadamente largura do item + gap
+        
+        prevBtn.addEventListener('click', function() {
+            carousel.scrollBy({
+                left: -scrollDistance,
+                behavior: 'smooth'
+            });
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            carousel.scrollBy({
+                left: scrollDistance,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    // Configurar o carrossel da div5
+    setupCarousel('.div5 .book-carousel-container');
+});
+    </script>
+    {% endblock %}
