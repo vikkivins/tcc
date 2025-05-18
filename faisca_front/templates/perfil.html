@@ -8,11 +8,14 @@
     <div class="container">
         <div class="div1">
             <div class="profile-container">
-                <div class="profile-photo">
-                    <div class="photo-overlay">
-                        <div class="camera-icon"><i class="bi bi-camera-fill"></i></div>
-                        <div class="overlay-text">Atualizar foto de perfil</div>
-                    </div>
+                <div class="profile-photo" style="background-image: url('{{ url_for('static', filename=profile_pic) or url_for('static', filename='uploads/perfil/default_profile.png') }}')">
+                    <form id="profilePicForm" enctype="multipart/form-data">
+                        <input type="file" id="profilePicUpload" name="file" accept="image/*" style="display: none;">
+                        <div class="photo-overlay" onclick="document.getElementById('profilePicUpload').click()">
+                            <div class="camera-icon"><i class="bi bi-camera-fill"></i></div>
+                            <div class="overlay-text">Atualizar foto de perfil</div>
+                        </div>
+                    </form>
                 </div>
                 <div class="accent-circle"></div>
             </div>
@@ -313,6 +316,28 @@
     
     // Configurar o carrossel da div5
     setupCarousel('.div5 .book-carousel-container');
+});
+
+
+document.getElementById('profilePicUpload').addEventListener('change', function() {
+    const formData = new FormData();
+    formData.append('file', this.files[0]);
+    
+    fetch("{{ url_for('perfil.upload_profile_pic') }}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+        }
+    }).then(response => {
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            alert('Erro ao enviar a imagem');
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+        alert('Erro ao conectar com o servidor');
+    });
 });
     </script>
     {% endblock %}
