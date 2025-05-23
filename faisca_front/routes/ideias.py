@@ -26,7 +26,7 @@ def create_ideia():
             response = requests.post(f"{API_BASE_URL}/ideias/", json=ideia_data, headers=headers)
             
             if response.status_code == 200:
-                return redirect(url_for('home.home'))
+                return redirect(url_for('biblioteca.biblioteca'))
             
             error_msg = "Erro ao criar ideia"
             return render_template('create_ideia.html', error=error_msg)
@@ -66,7 +66,7 @@ def edit_ideia(ideia_id):
         response = requests.get(f"{API_BASE_URL}/ideias/{ideia_id}", headers=headers)
         
         if response.status_code != 200:
-            return redirect(url_for('home.home'))
+            return redirect(url_for('biblioteca.biblioteca'))
         
         ideia = response.json()
         
@@ -84,7 +84,7 @@ def edit_ideia(ideia_id):
                 update_response = requests.put(f"{API_BASE_URL}/ideias/{ideia_id}", json=ideia_data, headers=headers)
                 
                 if update_response.status_code == 200:
-                    return redirect(url_for('home.home'))
+                    return redirect(url_for('biblioteca.biblioteca'))
                 
                 error_msg = "Erro ao atualizar ideia: " + update_response.text
                 return render_template('edit_ideia.html', ideia=ideia, error=error_msg)
@@ -108,7 +108,7 @@ def delete_ideia(ideia_id):
         headers = {'Authorization': f"Bearer {session['access_token']}"}
         response = requests.delete(f"{API_BASE_URL}/ideias/{ideia_id}", headers=headers)
         
-        return redirect(url_for('home.home')) if response.status_code == 200 else redirect(url_for('home'))
+        return redirect(url_for('biblioteca.biblioteca')) if response.status_code == 200 else redirect(url_for('biblioteca'))
     
     except requests.exceptions.RequestException:
-        return redirect(url_for('home.home'))
+        return redirect(url_for('biblioteca.biblioteca'))

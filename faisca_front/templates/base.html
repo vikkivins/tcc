@@ -27,7 +27,7 @@
                 <div class="sidebar-video-overlay"></div>
             </div>
             <div class="sidebar-logo">
-                <a href="{{ url_for('home.home') }}">
+                <a href="{{ url_for('biblioteca.biblioteca') }}">
                     <img src="{{ url_for('static', filename='imagens/logo-nome-faisca.png') }}" alt="Logo">
                 </a>
             </div>
@@ -35,9 +35,13 @@
                 <h3>Sua escrita</h3>
             </div>
             <div class="sidebar-section">
-                <a href="{{ url_for('home.home') }}" class="sidebar-item">
-                    <i class="bi bi-house"></i>
-                    Início
+                <a href="{{ url_for('perfil.perfil') }}" class="sidebar-item">
+                    <i class="bi bi-stars"></i>
+                    Meu perfil
+                </a>
+                <a href="{{ url_for('biblioteca.biblioteca') }}" class="sidebar-item">
+                    <i class="bi bi-bookmarks"></i>
+                    Minha Biblioteca
                 </a>
                 <a href="{{ url_for('livros.create_livro') }}" class="sidebar-item">
                     <i class="bi bi-book"></i>

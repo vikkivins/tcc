@@ -45,7 +45,7 @@ def create_livro():
                 )
             
             if response.status_code == 200:
-                return redirect(url_for('home.home'))
+                return redirect(url_for('biblioteca.biblioteca'))
             
             error_msg = "Erro ao criar livro"
             return render_template('create_livro.html', error=error_msg)
@@ -76,12 +76,28 @@ def visualizar_livro(livro_id):
         print(usuario_logado)
         eh_autor = int(usuario_logado) == int(livro['usuario_id'])
 
+        # Verificar se o livro está na biblioteca (apenas para livros públicos que não são do usuário)
+        na_biblioteca = False
+        if livro['publico'] and not eh_autor:
+            try:
+                biblioteca_response = requests.get(
+                    f"{API_BASE_URL}/biblioteca/verificar/{livro_id}",
+                    headers=headers
+                )
+                if biblioteca_response.status_code == 200:
+                    biblioteca_data = biblioteca_response.json()
+                    na_biblioteca = biblioteca_data.get('na_biblioteca', False)
+            except requests.exceptions.RequestException:
+                # Em caso de erro, assume que não está na biblioteca
+                na_biblioteca = False
+
         return render_template(
             'livro.html',
             livro=livro,
             capitulos=livro_data.get('capitulos', []),
             ideias=livro_data.get('ideias', []),
-            eh_autor=eh_autor
+            eh_autor=eh_autor,
+            na_biblioteca=na_biblioteca
         )
     
     return render_template('livro.html', error=f"Erro {response.status_code}: {response.text}")
@@ -103,7 +119,7 @@ def edit_livro(livro_id):
         )
         
         if response.status_code != 200:
-            return redirect(url_for('home.home'))
+            return redirect(url_for('biblioteca.biblioteca'))
         
         livro = response.json()
         
@@ -138,7 +154,7 @@ def edit_livro(livro_id):
             )
 
             if update_response.status_code == 200:
-                return redirect(url_for('home.home'))  # Redireciona após sucesso
+                return redirect(url_for('biblioteca.biblioteca'))  # Redireciona após sucesso
 
         return render_template('edit_livro.html', livro=livro)
     
@@ -161,9 +177,9 @@ def delete_livro(livro_id):
         )
         
         if response.status_code == 200:
-            return redirect(url_for('home.home'))
+            return redirect(url_for('biblioteca.biblioteca'))
         
-        return redirect(url_for('home.home'))
+        return redirect(url_for('biblioteca.biblioteca'))
     
     except requests.exceptions.RequestException:
-        return redirect(url_for('home.home'))
+        return redirect(url_for('biblioteca.biblioteca'))

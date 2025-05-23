@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from sqlalchemy.orm import relationship, backref
 from database import Base
 
-# Associação entre Livro e Ideia (Relacionamento N:N)
+# TODO: Associação entre Livro e Ideia (Relacionamento N:N), já ta feita aqui mas falta colocar no front
 livro_ideia_association = Table(
     'livro_ideia', Base.metadata,
     Column('livro_id', Integer, ForeignKey('livros.id'), primary_key=True),
@@ -14,6 +14,13 @@ capitulo_ideia_association = Table(
     'capitulo_ideia', Base.metadata,
     Column('capitulo_id', Integer, ForeignKey('capitulos.id'), primary_key=True),
     Column('ideia_id', Integer, ForeignKey('ideias.id'), primary_key=True)
+)
+
+biblioteca_association = Table(
+    'biblioteca', Base.metadata,
+    Column('usuario_id', Integer, ForeignKey('usuarios.id'), primary_key=True),
+    Column('livro_id', Integer, ForeignKey('livros.id'), primary_key=True),
+    Column('data_adicao', DateTime, default=lambda: datetime.now(timezone.utc))
 )
 
 class Usuario(Base):
@@ -35,6 +42,7 @@ class Usuario(Base):
     capitulos_modificados = relationship("Capitulo", back_populates="autor_modificacao", foreign_keys="[Capitulo.autor_ultima_modificacao]")
     ideias = relationship("Ideia", back_populates="usuario")
     postagens = relationship("Postagem", back_populates="usuario")
+    biblioteca = relationship("Livro", secondary=biblioteca_association, back_populates="seguidores")
 
 class Livro(Base):
     __tablename__ = 'livros'
@@ -56,6 +64,7 @@ class Livro(Base):
     autor_modificacao = relationship("Usuario", back_populates="livros_modificados", foreign_keys=[autor_ultima_modificacao])
     capitulos = relationship("Capitulo", back_populates="livro", cascade="all, delete-orphan")
     ideias = relationship("Ideia", secondary=livro_ideia_association, back_populates="livros")
+    seguidores = relationship("Usuario", secondary=biblioteca_association, back_populates="biblioteca")
     
 class Capitulo(Base):
     __tablename__ = 'capitulos'

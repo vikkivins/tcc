@@ -8,7 +8,7 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/')
 def index():
     if 'access_token' in session:
-        return redirect(url_for('home.home'))
+        return redirect(url_for('biblioteca.biblioteca'))
     return redirect(url_for('auth.login'))
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -36,7 +36,7 @@ def login():
                 session['user_id'] = decoded.get('user_id')
                 session['username'] = decoded.get('sub')
                 
-                return redirect(url_for('home.home'))
+                return redirect(url_for('biblioteca.biblioteca'))
             
             error_msg = "Usuário ou senha incorretos"
             return render_template('login.html', error=error_msg)

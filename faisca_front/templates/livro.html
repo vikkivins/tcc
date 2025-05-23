@@ -39,6 +39,21 @@
                     <button type="submit" class="btn-excluir">Excluir</button>
                 </form>
             </div>
+            {% else %}
+                <!-- Seção de biblioteca para livros públicos que não são do usuário -->
+                {% if livro.publico %}
+                <div class="acoes-biblioteca">
+                    {% if na_biblioteca %}
+                        <form action="{{ url_for('biblioteca.remover_livro', livro_id=livro.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este livro da sua biblioteca?');" class="form-biblioteca">
+                            <button type="submit" class="btn-remover-biblioteca">Remover da Biblioteca</button>
+                        </form>
+                    {% else %}
+                        <form action="{{ url_for('biblioteca.adicionar_livro', livro_id=livro.id) }}" method="POST" class="form-biblioteca">
+                            <button type="submit" class="btn-adicionar-biblioteca">Adicionar à Biblioteca</button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% endif %}
             {% endif %}
         </div>
 

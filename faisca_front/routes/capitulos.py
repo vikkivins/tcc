@@ -118,7 +118,7 @@ def edit_capitulo(capitulo_id):
         response = requests.get(f"{API_BASE_URL}/capitulos/{capitulo_id}", headers=headers)
         
         if response.status_code != 200:
-            return redirect(url_for('home.home'))
+            return redirect(url_for('biblioteca.biblioteca'))
         
         capitulo = response.json()
         
@@ -162,12 +162,12 @@ def delete_capitulo(capitulo_id):
         response = requests.delete(f"{API_BASE_URL}/capitulos/{capitulo_id}", headers=headers)
         
         if response.status_code == 200:
-            return redirect(url_for('home.home'))
+            return redirect(url_for('biblioteca.biblioteca'))
         
-        return redirect(url_for('home.home'))
+        return redirect(url_for('biblioteca.biblioteca'))
     
     except requests.exceptions.RequestException:
-        return redirect(url_for('home.home'))
+        return redirect(url_for('biblioteca.biblioteca'))
     
 ################## COMENTARIOS #######################
 
@@ -190,7 +190,7 @@ def adicionar_comentario(capitulo_id):
         response = requests.get(f"{API_BASE_URL}/capitulos/{capitulo_id}", headers=headers)
         
         if response.status_code != 200:
-            return redirect(url_for('home.home', error_msg="Erro ao carregar capítulo"))
+            return redirect(url_for('biblioteca.biblioteca', error_msg="Erro ao carregar capítulo"))
         
         capitulo = response.json()
         return render_template('capitulo.html', 
@@ -240,7 +240,7 @@ def adicionar_comentario(capitulo_id):
             # Recarregar capítulo para mostrar erro
             response_cap = requests.get(f"{API_BASE_URL}/capitulos/{capitulo_id}", headers=headers)
             if response_cap.status_code != 200:
-                return redirect(url_for('home.home', error_msg="Erro ao carregar capítulo"))
+                return redirect(url_for('biblioteca.biblioteca', error_msg="Erro ao carregar capítulo"))
             
             capitulo = response_cap.json()
             return render_template('capitulo.html',
@@ -252,14 +252,14 @@ def adicionar_comentario(capitulo_id):
         try:
             response_cap = requests.get(f"{API_BASE_URL}/capitulos/{capitulo_id}", headers=headers)
             if response_cap.status_code != 200:
-                return redirect(url_for('home.home', error_msg="Erro ao carregar capítulo"))
+                return redirect(url_for('biblioteca.biblioteca', error_msg="Erro ao carregar capítulo"))
             
             capitulo = response_cap.json()
             return render_template('capitulo.html',
                                 error_msg=f"Erro ao conectar com o servidor: {str(e)}",
                                 capitulo=capitulo)
         except requests.exceptions.RequestException:
-            return redirect(url_for('home.home', error_msg="Erro grave ao conectar com o servidor"))
+            return redirect(url_for('biblioteca.biblioteca', error_msg="Erro grave ao conectar com o servidor"))
 
     return redirect(url_for('capitulos.visualizar_capitulo', capitulo_id=capitulo_id))
 

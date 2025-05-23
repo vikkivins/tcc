@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Minha Biblioteca{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/biblioteca.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <h2>Minha Biblioteca</h2>
+    
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    
+    <div class="book-carousel-container">
+        <button class="carousel-button prev">&lt;</button>
+        <div class="book-carousel">
+            {% if biblioteca_livros %}
+                {% for livro in biblioteca_livros %}
+                <div class="book-item" data-livro-id="{{ livro.id }}">
+                    <div class="book-content">
+                        <span class="book-name">{{ livro.titulolivro }}</span>
+                        <p class="book-description">{{ livro.descricaolivro }}</p>
+                        <div class="autor-info">
+                            <span class="autor-username">por {{ livro.autor.username }}</span>
+                        </div>
+                        {% if livro.data_adicao %}
+                            <small class="data-adicao">Adicionado em: {{ livro.data_adicao }}</small>
+                        {% endif %}
+                        {% if livro.datacriacao %}
+                            <small class="data-criacao">Criado em: {{ livro.datacriacao }}</small>
+                        {% endif %}
+                        
+                        <div class="book-actions">
+                            <a href="{{ url_for('livros.visualizar_livro', livro_id=livro.id) }}" class="btn-visualizar">
+                                Ver Livro
+                            </a>
+                            <form action="{{ url_for('biblioteca.remover_livro', livro_id=livro.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este livro da sua biblioteca?');" class="form-remover">
+                                <button type="submit" class="btn-remover">Remover</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-books">Sua biblioteca está vazia. Explore livros públicos para adicionar à sua biblioteca!</p>
+            {% endif %}
+        </div>
+        <button class="carousel-button next">&gt;</button>
+    </div>
+</div>
+
+    {% block extra_js %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Carousel functionality
+        const carouselContainer = document.querySelector('.book-carousel-container');
+        const carousel = carouselContainer.querySelector('.book-carousel');
+        const prevButton = carouselContainer.querySelector('.carousel-button.prev');
+        const nextButton = carouselContainer.querySelector('.carousel-button.next');
+
+        prevButton.addEventListener('click', () => {
+            carousel.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+
+        nextButton.addEventListener('click', () => {
+            carousel.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+    });
+    </script>
+    {% endblock %}
+
+{% endblock %}

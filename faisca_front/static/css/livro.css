@@ -196,6 +196,49 @@ body {
     margin-right: 5px;
 }
 
+/* Seção de biblioteca */
+.acoes-biblioteca {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form-biblioteca {
+    margin: 0;
+}
+
+.btn-adicionar-biblioteca, .btn-remover-biblioteca {
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+}
+
+.btn-adicionar-biblioteca {
+    background-color: #27ae60;
+    color: white;
+}
+
+.btn-adicionar-biblioteca:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
+}
+
+.btn-remover-biblioteca {
+    background-color: #e67e22;
+    color: white;
+}
+
+.btn-remover-biblioteca:hover {
+    background-color: #f39c12;
+    transform: translateY(-2px);
+}
+
 /* Cards de capítulos */
 .capitulos-lista {
     display: flex;

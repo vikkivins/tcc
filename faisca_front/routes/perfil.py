@@ -5,6 +5,8 @@ import os
 
 perfil_bp = Blueprint('perfil', __name__)
 
+# TODO: Adicionar o redirecionamento para a pagina do livro na exibição de livros do usuário
+
 @perfil_bp.route('/')
 @perfil_bp.route('/<username>')
 def perfil(username=None):
