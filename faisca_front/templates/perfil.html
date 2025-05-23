@@ -15,6 +15,7 @@
         <div class="div1">
             <div class="profile-container">
                 <div class="profile-photo" style="background-image: url('{{ url_for('static', filename=profile_pic) if profile_pic else url_for('static', filename='uploads/perfil/default_profile.png') }}')">
+                    {% if is_own_profile %}
                     <form id="profilePicForm" enctype="multipart/form-data">
                         <input type="file" id="profilePicUpload" name="file" accept="image/*" style="display: none;">
                         <div class="photo-overlay" onclick="document.getElementById('profilePicUpload').click()">
@@ -22,6 +23,7 @@
                             <div class="overlay-text">Atualizar foto de perfil</div>
                         </div>
                     </form>
+                    {% endif %}
                 </div>
                 <div class="accent-circle"></div>
             </div>
@@ -31,7 +33,9 @@
                 <h2 class="user-naming">{{ nome or 'Nome não informado' }}</h2>
                 <span class="user-handle">@{{ username or 'username' }} · pro/nome</span>
                 <p class="user-description">{{ bio or 'Este usuário ainda não adicionou uma descrição.' }}</p>
+                {% if is_own_profile %}
                 <button class="edit-button">Editar perfil</button>
+                {% endif %}
             </div>
             
             <div class="divider"></div>
@@ -50,7 +54,9 @@
                     <div class="badge-icon reading"></div>
                     <span class="badge-text">Lendo vorazmente!</span>
                 </div>
+                {% if is_own_profile %}
                 <button class="edit-button">Editar emblemas</button>
+                {% endif %}
             </div>
             
             <div class="divider"></div>
@@ -65,7 +71,9 @@
                     <div class="availability-icon unavailable"></div>
                     <span class="availability-text">Indisponível para editar</span>
                 </div>
+                {% if is_own_profile %}
                 <button class="edit-button">Editar disponibilidade</button>
+                {% endif %}
             </div>
         </div>
         <div class="div3">
@@ -87,11 +95,15 @@
                         </div>
                     </div>
                     {% endfor %}
-                {% else %}
+                {% elif is_own_profile %}
                     <div class="no-updates-message">
                         <p style="color: #666; font-style: italic; text-align: center; width: 100%;">
                             Você ainda não fez postagens.
                         </p>
+                    </div>
+                {% else %}
+                    <div class="no-updates-message">
+                        <p>Este usuário ainda não fez postagens.</p>
                     </div>
                 {% endif %}
             </div>
@@ -176,7 +188,13 @@
         </div>
         <div class="div5">
             <div class="obras-section">
-                <h2 class="section-heading">Minhas Obras</h2>
+                <h2 class="section-heading">
+                    {% if is_own_profile %}
+                        Minhas Obras
+                    {% else %}
+                        Obras Públicas de {{ nome or username }}
+                    {% endif %}
+                </h2>
                 {% if livros %}
                 <div class="book-carousel-container">
                     <button class="carousel-button prev">&lt;</button>
@@ -190,6 +208,11 @@
                                     <span class="autor-username">{{ nome or username or 'Autor' }}</span>
                                 </div>
                                 <small class="data-criacao">Criado em: {{ livro.datacriacao or 'Data não disponível' }}</small>
+                                {% if not is_own_profile %}
+                                <div class="public-badge" style="background: #4CAF50; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem; margin-top: 5px; display: inline-block;">
+                                    PÚBLICO
+                                </div>
+                                {% endif %}
                             </div>
                         </a>
                         {% endfor %}
@@ -201,15 +224,23 @@
                 </div>
                 {% else %}
                 <div class="no-books-message" style="text-align: center; padding: 40px; color: rgba(255,255,255,0.8);">
-                    <p style="font-size: 1.1rem; margin-bottom: 10px;">📚 Você ainda não criou livros.</p>
-                    <p style="font-size: 0.9rem;">Que tal começar sua primeira obra?</p>
+                    {% if is_own_profile %}
+                        <p style="font-size: 1.1rem; margin-bottom: 10px;">📚 Você ainda não criou livros.</p>
+                        <p style="font-size: 0.9rem;">Que tal começar sua primeira obra?</p>
+                    {% else %}
+                        <p style="font-size: 1.1rem; margin-bottom: 10px;">📚 Este usuário não possui obras públicas.</p>
+                        <p style="font-size: 0.9rem;">Aguarde por futuras publicações!</p>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>
         </div>
         <div class="div6">
             <div class="timeline-section">
-                <h2 class="section-heading">Timeline</h2><div class="view-all-link"><a href="#">Ver tudo</a></div>
+                <h2 class="section-heading">Timeline</h2>
+                {% if postagens %}
+                <div class="view-all-link"><a href="#">Ver tudo</a></div>
+                {% endif %}
                 <div class="timeline-container">
                     {% if postagens %}
                         {% for postagem in postagens %}
@@ -233,17 +264,23 @@
                             </div>
                         </div>
                         {% endfor %}
-                    {% else %}
+                    {% elif is_own_profile %}
                         <div class="no-posts-message" style="text-align: center; padding: 30px; color: #666;">
                             <p style="font-size: 1rem; margin-bottom: 10px;">📝 Você ainda não fez postagens.</p>
                             <p style="font-size: 0.9rem;">Compartilhe suas ideias e atualizações aqui!</p>
                         </div>
+                    {% else %}
+                        <div class="no-posts-message">
+                            <p>Este usuário ainda não fez postagens.</p>
+                        </div>
                     {% endif %}
                 </div>
                 
+                {% if is_own_profile %}
                 <div class="manage-posts">
                     <span>— Gerenciar minhas publicações —</span>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -285,7 +322,11 @@
     setupCarousel('.div5 .book-carousel-container');
 });
 
+</script>
 
+{% if is_own_profile %}
+
+<script>
 document.getElementById('profilePicUpload').addEventListener('change', function() {
     const formData = new FormData();
     formData.append('file', this.files[0]);
@@ -306,5 +347,7 @@ document.getElementById('profilePicUpload').addEventListener('change', function(
         alert('Erro ao conectar com o servidor');
     });
 });
+
     </script>
+    {% endif %}
     {% endblock %}

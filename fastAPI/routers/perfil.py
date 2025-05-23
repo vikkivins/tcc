@@ -2,8 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.orm import Session
 from database import get_db
 from security import get_current_user
-from model import Usuario
-from typing import Optional
+from model import Usuario, Livro
+from schemas.livroschemas import LivroResponse
+from schemas.usuarioschemas import AutorResumoResponse  # Assumindo que existe
+from typing import Optional, List
 import os
 from datetime import datetime
 from pathlib import Path
@@ -19,13 +21,42 @@ MAX_FILE_SIZE = 2 * 1024 * 1024  # 2MB
 def allowed_file(filename: str) -> bool:
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@router.get("/")
-async def get_profile(current_user: Usuario = Depends(get_current_user)):
+@router.get("/{username}")
+async def get_user_profile(
+    username: str, 
+    db: Session = Depends(get_db),
+    current_user: Optional[Usuario] = Depends(get_current_user)
+):
+    """Retorna o perfil de um usuário específico pelo username"""
+    
+    # Buscar o usuário pelo username
+    user = db.query(Usuario).filter(Usuario.username == username).first()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    
+    # Verificar se é o próprio perfil
+    is_own_profile = current_user and current_user.id == user.id
+    
+    # Buscar livros - se for próprio perfil, todos os livros; senão, apenas públicos
+    if is_own_profile:
+        livros = db.query(Livro).filter(Livro.usuario_id == user.id).all()
+    else:
+        livros = db.query(Livro).filter(
+            Livro.usuario_id == user.id,
+            Livro.publico == True
+        ).all()
+    
+    # Converter livros para response model
+    livros_response = [LivroResponse.model_validate(livro.__dict__) for livro in livros]
+    
     return {
-        "username": current_user.username,
-        "profilepic": current_user.profilepic,
-        "nome": current_user.nome,
-        "bio": current_user.bio
+        "username": user.username,
+        "profilepic": user.profilepic,
+        "nome": user.nome,
+        "bio": user.bio,
+        "is_own_profile": is_own_profile,
+        "livros": livros_response
     }
 
 @router.post("/upload_profile_pic")

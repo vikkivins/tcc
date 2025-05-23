@@ -35,6 +35,24 @@ def read_minhas_obras(db: Session = Depends(get_db), current_user: Usuario = Dep
 # def read_livros_publicos_endpoint(db: Session = Depends(get_db)):
 #     return db.query(Livro).filter(Livro.publico == True).all()
 
+# Novo endpoint para livros públicos de um usuário específico
+@router.get("/publicos/{username}", response_model=List[LivroResponse])
+def read_livros_publicos_usuario(username: str, db: Session = Depends(get_db)):
+    """Retorna apenas os livros públicos de um usuário específico"""
+    # Buscar o usuário pelo username
+    user = db.query(Usuario).filter(Usuario.username == username).first()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    
+    # Retornar apenas livros públicos deste usuário
+    livros = db.query(Livro).filter(
+        Livro.usuario_id == user.id,
+        Livro.publico == True
+    ).all()
+    
+    return livros
+
 @router.put("/{livro_id}", response_model=LivroResponse)
 def update_livro_endpoint(livro_id: int, livro: LivroUpdate, db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     livro_data = livro.model_dump()

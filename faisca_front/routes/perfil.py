@@ -6,8 +6,16 @@ import os
 perfil_bp = Blueprint('perfil', __name__)
 
 @perfil_bp.route('/')
-def perfil():
+@perfil_bp.route('/<username>')
+def perfil(username=None):
     headers = {"Authorization": f"Bearer {session.get('access_token', '')}"}
+    
+    # Se não há username na URL, usar o próprio usuário logado
+    if not username:
+        username = session.get('username')
+        if not username:
+            flash('Você precisa estar logado para acessar o perfil', 'error')
+            return redirect(url_for('auth.login'))
     
     # Inicializar variáveis padrão
     user_data = {}
@@ -16,31 +24,46 @@ def perfil():
     error_message = None
     
     try:
-        # Buscar dados do usuário
-        user_response = requests.get(f"{API_BASE_URL}/perfil", headers=headers, timeout=10)
-        if user_response.status_code == 200:
-            user_data = user_response.json()
+        # Buscar dados do perfil (funciona tanto para próprio perfil quanto para outros usuários)
+        user_response = requests.get(f"{API_BASE_URL}/perfil/{username}", headers=headers, timeout=10)
+        
+        if user_response.status_code == 404:
+            flash('Usuário não encontrado', 'error')
+            return redirect(url_for('perfil.perfil'))
+        elif user_response.status_code == 401:
+            flash('Sessão expirada. Faça login novamente.', 'error')
+            return redirect(url_for('auth.login'))
+        elif user_response.status_code == 200:
+            profile_data = user_response.json()
+            user_data = {
+                'username': profile_data.get('username', ''),
+                'nome': profile_data.get('nome', ''),
+                'bio': profile_data.get('bio', ''),
+                'profilepic': profile_data.get('profilepic', '')
+            }
+            livros_data = profile_data.get('livros', [])
+            is_own_profile = profile_data.get('is_own_profile', False)
+            
+            try:
+                if is_own_profile:
+                    # Para o próprio perfil, buscar todas as postagens
+                    postagens_response = requests.get(f"{API_BASE_URL}/postagens/minhasatualizacoes", headers=headers, timeout=10)
+                else:
+                    # Para outros usuários, buscar postagens públicas
+                    postagens_response = requests.get(f"{API_BASE_URL}/postagens/{username}", headers=headers, timeout=10)
+                
+                if postagens_response.status_code == 200:
+                    postagens_data = postagens_response.json()
+            except requests.exceptions.RequestException as e:
+                print(f"Erro ao buscar postagens: {str(e)}")
+                # Não é erro crítico, continua sem as postagens
+            
         else:
-            print(f"Erro ao buscar dados do usuário: {user_response.status_code}")
-
-        # Buscar livros do usuário
-        try:
-            livros_response = requests.get(f"{API_BASE_URL}/livros/minhasobras", headers=headers, timeout=10)
-            if livros_response.status_code == 200:
-                livros_data = livros_response.json()
-        except requests.exceptions.RequestException as e:
-            print(f"Erro ao buscar livros: {str(e)}")
-
-        # Buscar postagens do usuário
-        try:
-            postagens_response = requests.get(f"{API_BASE_URL}/postagens/minhasatualizacoes", headers=headers, timeout=10)
-            if postagens_response.status_code == 200:
-                postagens_data = postagens_response.json()
-        except requests.exceptions.RequestException as e:
-            print(f"Erro ao buscar postagens: {str(e)}")
+            print(f"Erro ao buscar perfil do usuário {username}: {user_response.status_code}")
+            error_message = "Erro ao carregar perfil do usuário."
 
     except requests.exceptions.RequestException as e:
-        print(f"Erro crítico ao conectar com a API: {str(e)}")
+        print(f"Erro de conexão com a API: {str(e)}")
         error_message = "Erro ao conectar com o servidor. Alguns dados podem não estar disponíveis."
     except Exception as e:
         print(f"Erro inesperado: {str(e)}")
@@ -48,13 +71,15 @@ def perfil():
 
     # Preparar dados para o template
     template_data = {
-        'username': user_data.get('username', session.get('username', '')),
+        'username': user_data.get('username', username),
         'nome': user_data.get('nome', ''),
         'bio': user_data.get('bio', ''),
         'profile_pic': user_data.get('profilepic', ''),
         'livros': livros_data if isinstance(livros_data, list) else [],
         'postagens': postagens_data if isinstance(postagens_data, list) else [],
-        'error': error_message
+        'error': error_message,
+        'is_own_profile': locals().get('is_own_profile', False),
+        'viewing_username': username
     }
     
     return render_template('perfil.html', **template_data)

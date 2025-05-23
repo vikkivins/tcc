@@ -42,6 +42,25 @@ async def listar_minhas_postagens(
     )
     return postagens
 
+@router.get("/{username}", response_model=List[PostagemResponse])
+def read_postagens_usuario(
+    username: str, 
+    db: Session = Depends(get_db),
+    current_user: Usuario = Depends(get_current_user)
+):
+    """Retorna as postagens de um usuário específico"""
+    
+    # Buscar o usuário pelo username
+    user = db.query(Usuario).filter(Usuario.username == username).first()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    postagens = db.query(Postagem).filter(
+        Postagem.usuario_id == user.id
+    ).order_by(Postagem.datacriacao.desc()).all()
+    
+    return postagens
+
 
 # 🆕 Criar uma nova postagem
 @router.post("/", response_model=PostagemResponse)
