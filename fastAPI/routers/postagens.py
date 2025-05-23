@@ -27,6 +27,21 @@ async def listar_postagens(
     )
     return postagens
 
+# Listar MINHAS postagens
+
+@router.get("/minhasatualizacoes", response_model=List[PostagemResponse])
+async def listar_minhas_postagens(
+    db: Session = Depends(get_db),
+    current_user: Usuario = Depends(get_current_user)
+):
+    postagens = (
+        db.query(Postagem)
+        .filter(Postagem.usuario_id == current_user.id)
+        .order_by(Postagem.datacriacao.desc())
+        .all()
+    )
+    return postagens
+
 
 # 🆕 Criar uma nova postagem
 @router.post("/", response_model=PostagemResponse)

@@ -25,6 +25,11 @@ def create_livro_endpoint(livro: LivroCreate, db: Session = Depends(get_db), cur
 def read_livros_endpoint(db: Session = Depends(get_db)):
     return get_livros(db=db)
 
+@router.get("/minhasobras", response_model=List[LivroResponse])
+def read_minhas_obras(db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
+    livros = db.query(Livro).filter(Livro.usuario_id == current_user.id).all()
+    return livros
+
 # para que os livros sejam publicos pra quem não é autenticado
 # @router.get("/publicos", response_model=List[LivroResponse])
 # def read_livros_publicos_endpoint(db: Session = Depends(get_db)):

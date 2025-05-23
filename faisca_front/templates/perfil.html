@@ -1,14 +1,20 @@
 {% extends "base.html" %}
-{% block title %}nome do user{% endblock %}
+{% block title %}{{ nome or username or 'Perfil' }}{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 {% endblock %}
 
 {% block content %}
+    {% if error %}
+    <div class="error-message" style="background-color: #ffebee; color: #c62828; padding: 15px; margin: 10px; border-radius: 5px; text-align: center; font-weight: bold;">
+        ⚠️ {{ error }}
+    </div>
+    {% endif %}
+
     <div class="container">
         <div class="div1">
             <div class="profile-container">
-                <div class="profile-photo" style="background-image: url('{{ url_for('static', filename=profile_pic) or url_for('static', filename='uploads/perfil/default_profile.png') }}')">
+                <div class="profile-photo" style="background-image: url('{{ url_for('static', filename=profile_pic) if profile_pic else url_for('static', filename='uploads/perfil/default_profile.png') }}')">
                     <form id="profilePicForm" enctype="multipart/form-data">
                         <input type="file" id="profilePicUpload" name="file" accept="image/*" style="display: none;">
                         <div class="photo-overlay" onclick="document.getElementById('profilePicUpload').click()">
@@ -22,9 +28,9 @@
         </div>
         <div class="div2">
             <div class="user-info">
-                <h2 class="user-naming">Nome do Usuário</h2>
-                <span class="user-handle">username · pro/nome</span>
-                <p class="user-description">Descrição personalizada do usuário, com limitação de caracteres a 300 caracteres e tudo mais.</p>
+                <h2 class="user-naming">{{ nome or 'Nome não informado' }}</h2>
+                <span class="user-handle">@{{ username or 'username' }} · pro/nome</span>
+                <p class="user-description">{{ bio or 'Este usuário ainda não adicionou uma descrição.' }}</p>
                 <button class="edit-button">Editar perfil</button>
             </div>
             
@@ -65,37 +71,34 @@
         <div class="div3">
             <h2 class="section-heading">Últimas Atualizações</h2>
             <div class="updates-container">
-                <div class="update-card">
-                    <div class="card-thumbnail">
-                        Capa da obra
-                    </div>
-                    <div class="card-content">
-                        <div class="card-title">Atualização de obra título</div>
-                        <div class="card-description">Breve descrição da atualização da obra com um limite de caracteres para caber na card...</div>
-                        <div class="card-tag">
-                            <div class="tag-dot orange-dot"></div>
-                            <span>Tag pra saber o tipo de atualização</span>
+                {% if postagens %}
+                    {% for postagem in postagens[:2] %}
+                    <div class="update-card">
+                        <div class="card-thumbnail">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">Postagem do perfil</div>
+                            <div class="card-description">{{ postagem.conteudopostagem[:80] }}{% if postagem.conteudopostagem|length > 80 %}...{% endif %}</div>
+                            <div class="card-tag">
+                                <div class="tag-dot orange-dot"></div>
+                                <span>Postagem</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="update-card">
-                    <div class="card-thumbnail">
-                        <i class="bi bi-person-circle"></i>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-updates-message">
+                        <p style="color: #666; font-style: italic; text-align: center; width: 100%;">
+                            Você ainda não fez postagens.
+                        </p>
                     </div>
-                    <div class="card-content">
-                        <div class="card-title">Atualização de postagem no perfil título</div>
-                        <div class="card-description">Breve descrição da atualização do obra com um limite de caracteres para caber no card...</div>
-                        <div class="card-tag">
-                            <div class="tag-dot orange-dot"></div>
-                            <span>Tag pra saber o tipo de atualização</span>
-                        </div>
-                    </div>
-                </div>
+                {% endif %}
             </div>
         </div>
         <div class="div4">
             <div class="writing-calendar">
-                <h2 class="section-heading">{{ quantidade }} 0 dias escrevendo! <img class="img-foguinho" src="{{ url_for('static', filename='videos/foguinho-gif.gif') }}" alt="foguinho em pixel art"></h2>
+                <h2 class="section-heading">0 dias escrevendo! <img class="img-foguinho" src="{{ url_for('static', filename='videos/foguinho-gif.gif') }}" alt="foguinho em pixel art"></h2>
                 <div class="calendar-container">
                     <div class="month-calendar">
                         <div class="month-days-header">
@@ -174,104 +177,68 @@
         <div class="div5">
             <div class="obras-section">
                 <h2 class="section-heading">Minhas Obras</h2>
+                {% if livros %}
                 <div class="book-carousel-container">
                     <button class="carousel-button prev">&lt;</button>
                     <div class="book-carousel">
-                        <!-- Para testes, vamos incluir alguns itens estáticos -->
+                        {% for livro in livros %}
                         <a href="#" class="book-item">
                             <div class="book-content">
-                                <span class="book-name">Título da Obra 1</span>
-                                <p class="book-description">Uma breve descrição sobre o conteúdo desta obra...</p>
+                                <span class="book-name">{{ livro.titulolivro or 'Título não informado' }}</span>
+                                <p class="book-description">{{ livro.descricaolivro or 'Sem descrição disponível' }}</p>
                                 <div class="autor-info">
-                                    <span class="autor-username">Seu Nome</span>
+                                    <span class="autor-username">{{ nome or username or 'Autor' }}</span>
                                 </div>
-                                <small class="data-criacao">Criado em: 01/04/2025</small>
+                                <small class="data-criacao">Criado em: {{ livro.datacriacao or 'Data não disponível' }}</small>
                             </div>
                         </a>
-                        <a href="#" class="book-item">
-                            <div class="book-content">
-                                <span class="book-name">Título da Obra 2</span>
-                                <p class="book-description">Uma narrativa envolvente que captura a imaginação dos leitores...</p>
-                                <div class="autor-info">
-                                    <span class="autor-username">Seu Nome</span>
-                                </div>
-                                <small class="data-criacao">Criado em: 15/03/2025</small>
-                            </div>
-                        </a>
-                        <a href="#" class="book-item">
-                            <div class="book-content">
-                                <span class="book-name">Título da Obra 3</span>
-                                <p class="book-description">Uma história de superação e descobertas inesperadas...</p>
-                                <div class="autor-info">
-                                    <span class="autor-username">Seu Nome</span>
-                                </div>
-                                <small class="data-criacao">Criado em: 28/02/2025</small>
-                            </div>
-                        </a>
-                        <a href="#" class="book-item">
-                            <div class="book-content">
-                                <span class="book-name">Título da Obra 4</span>
-                                <p class="book-description">Um conto inspirador sobre jornadas e aprendizados...</p>
-                                <div class="autor-info">
-                                    <span class="autor-username">Seu Nome</span>
-                                </div>
-                                <small class="data-criacao">Criado em: 10/01/2025</small>
-                            </div>
-                        </a>
-                        <a href="#" class="book-item">
-                            <div class="book-content">
-                                <span class="book-name">Título da Obra 5</span>
-                                <p class="book-description">Uma aventura épica com personagens memoráveis...</p>
-                                <div class="autor-info">
-                                    <span class="autor-username">Seu Nome</span>
-                                </div>
-                                <small class="data-criacao">Criado em: 05/01/2025</small>
-                            </div>
-                        </a>
+                        {% endfor %}
                     </div>
                     <button class="carousel-button next">&gt;</button>
                 </div>
                 <div class="view-all-link">
                     <a href="#">Ver tudo</a>
                 </div>
+                {% else %}
+                <div class="no-books-message" style="text-align: center; padding: 40px; color: rgba(255,255,255,0.8);">
+                    <p style="font-size: 1.1rem; margin-bottom: 10px;">📚 Você ainda não criou livros.</p>
+                    <p style="font-size: 0.9rem;">Que tal começar sua primeira obra?</p>
+                </div>
+                {% endif %}
             </div>
         </div>
         <div class="div6">
             <div class="timeline-section">
                 <h2 class="section-heading">Timeline</h2><div class="view-all-link"><a href="#">Ver tudo</a></div>
                 <div class="timeline-container">
-                    <div class="timeline-item">
-                        <div class="user-avatar">
-                            <div class="avatar-top"></div>
-                            <div class="avatar-bottom"></div>
-                        </div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <span class="username">~ username</span>
-                                <span class="timeline-text">Atualização do usuário na timeline com número de caracteres restringido...</span>
+                    {% if postagens %}
+                        {% for postagem in postagens %}
+                        <div class="timeline-item">
+                            <div class="user-avatar">
+                                <div class="avatar-top"></div>
+                                <div class="avatar-bottom"></div>
                             </div>
-                            <div class="timeline-footer">
-                                <span class="time-ago">há 5 minutos</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="user-avatar">
-                            <div class="avatar-top"></div>
-                            <div class="avatar-bottom"></div>
-                        </div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <span class="username">~ username</span>
-                                <span class="timeline-text">Atualização do usuário na timeline com número de caracteres restringido...</span>
-                            </div>
-                            <div class="timeline-footer">
-                                <span class="date">dd/mm/ano</span>
-                                <span class="time">hora:minutos</span>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="username">~ {{ username or 'username' }}</span>
+                                    <span class="timeline-text">{{ postagem.conteudopostagem }}</span>
+                                </div>
+                                <div class="timeline-footer">
+                                    {% if postagem.datacriacao %}
+                                        <span class="date">{{ postagem.datacriacao }}</span>
+                                    {% else %}
+                                        <span class="date">Data não disponível</span>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-posts-message" style="text-align: center; padding: 30px; color: #666;">
+                            <p style="font-size: 1rem; margin-bottom: 10px;">📝 Você ainda não fez postagens.</p>
+                            <p style="font-size: 0.9rem;">Compartilhe suas ideias e atualizações aqui!</p>
+                        </div>
+                    {% endif %}
                 </div>
                 
                 <div class="manage-posts">

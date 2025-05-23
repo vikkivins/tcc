@@ -23,7 +23,9 @@ def allowed_file(filename: str) -> bool:
 async def get_profile(current_user: Usuario = Depends(get_current_user)):
     return {
         "username": current_user.username,
-        "profilepic": current_user.profilepic
+        "profilepic": current_user.profilepic,
+        "nome": current_user.nome,
+        "bio": current_user.bio
     }
 
 @router.post("/upload_profile_pic")
