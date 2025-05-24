@@ -69,7 +69,8 @@ def register():
                 'dtnasc': request.form['dtnasc'],
                 'email': request.form['email'],
                 'senha': request.form['senha'],  # Senha em texto puro
-                'bio': request.form.get('bio', '')
+                'bio': request.form.get('bio', ''),
+                'pronome': request.form.get('pronome', '')
             }
 
             # Enviar para a API (a senha será hasheada no backend)

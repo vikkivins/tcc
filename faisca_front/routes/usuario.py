@@ -52,7 +52,8 @@ def user_configuracoes():
                     'username': request.form.get('username', user_data.get('username', '')),
                     'dtnasc': request.form.get('dtnasc', user_data.get('dtnasc', '')),
                     'email': request.form.get('email', user_data.get('email', '')),
-                    'bio': request.form.get('bio', user_data.get('bio', ''))
+                    'bio': request.form.get('bio', user_data.get('bio', '')),
+                    'pronome': request.form.get('pronome', user_data.get('pronome', ''))
                 }
                 
                 # Verificar se a senha foi alterada

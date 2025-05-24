@@ -171,6 +171,8 @@ def delete_capitulo(capitulo_id):
     
 ################## COMENTARIOS #######################
 
+# TODO: Lembrar de revisar como fazer o terceiro comentario aninhado não poder existir, pra nao dar erro
+
 @capitulos_bp.route('/capitulo/<capitulo_id>/comentario', methods=['POST'])
 def adicionar_comentario(capitulo_id):
     if 'access_token' not in session:

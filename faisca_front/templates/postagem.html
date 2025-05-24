@@ -75,7 +75,8 @@
                 <div class="postagem-content">
                     <!-- Modo de visualização -->
                     <div class="view-mode">
-                        <div class="author-info">{{ post.usuario.username }}</div>
+                        <a href="{{ url_for('perfil.perfil', username=post.usuario.username) }}">
+                        <div class="author-info">{{ post.usuario.username }}</div></a>
                         <p class="post-text">{{ post.conteudopostagem }}</p>
                         
                         {% if post.usuario_id == session['user_id'] %}

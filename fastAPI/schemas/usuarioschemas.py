@@ -13,6 +13,7 @@ class UsuarioBase(BaseModel):
     email: EmailStr
     senha: str
     profilepic: Optional[str] = None
+    pronome: Optional[str] = None
 
 # Modelo para criação de usuário (com todos os campos necessários para criação)
 class UsuarioCreate(UsuarioBase):
@@ -27,6 +28,7 @@ class UsuarioUpdate(UsuarioBase):
     email: Optional[EmailStr] = None
     senha: Optional[str] = None
     profilepic: Optional[str] = None
+    pronome: Optional[str] = None
 
 class UsuarioResponse(UsuarioBase):
     id: int

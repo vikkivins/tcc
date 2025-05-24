@@ -34,6 +34,7 @@ class Usuario(Base):
     email = Column(String(50), unique=True, nullable=False)
     senha = Column(String(60), nullable=False)
     profilepic = Column(String(50), nullable=True)
+    pronome = Column(String(8), nullable=True)
     
     # Books created by this user
     livros = relationship("Livro", back_populates="usuario", foreign_keys="[Livro.usuario_id]")

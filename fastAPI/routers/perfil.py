@@ -55,6 +55,7 @@ async def get_user_profile(
         "profilepic": user.profilepic,
         "nome": user.nome,
         "bio": user.bio,
+        "pronome": user.pronome,
         "is_own_profile": is_own_profile,
         "livros": livros_response
     }

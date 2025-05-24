@@ -5,7 +5,8 @@ from security import get_password_hash
 from fastapi import HTTPException, status
 
 # FUNÇÕES DE CRUD PARA USUÁRIO
-def create_usuario(db: Session, nome: str, username: str, dtnasc: str, email: str, senha: str, bio: str = None, profilepic: str = None):
+def create_usuario(db: Session, nome: str, username: str, dtnasc: str, email: str, senha: str, bio: str = None, profilepic: str = None,
+                   pronome: str = None):
     # Debug: Mostra a senha recebida
     print(f"Senha recebida no cadastro: {senha}")
     
@@ -32,7 +33,8 @@ def create_usuario(db: Session, nome: str, username: str, dtnasc: str, email: st
         email=email,
         senha=hashed_password,  # Armazena o hash, não a senha plain text
         bio=bio,
-        profilepic=profilepic
+        profilepic=profilepic,
+        pronome=pronome
     )
     
     db.add(db_usuario)
@@ -46,7 +48,8 @@ def get_usuario(db: Session, usuario_id: int):
 def get_usuarios(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Usuario).offset(skip).limit(limit).all()
 
-def update_usuario(db: Session, usuario_id: int, nome: str = None, username: str = None, dtnasc: str = None, email: str = None, senha: str = None, bio: str = None, profilepic: str = None):
+def update_usuario(db: Session, usuario_id: int, nome: str = None, username: str = None, dtnasc: str = None, email: str = None, 
+                   senha: str = None, bio: str = None, profilepic: str = None, pronome: str = None):
     db_usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
     if db_usuario:
         if nome: db_usuario.nome = nome
@@ -56,6 +59,7 @@ def update_usuario(db: Session, usuario_id: int, nome: str = None, username: str
         if senha: db_usuario.senha = get_password_hash(senha)
         if bio: db_usuario.bio = bio
         if profilepic: db_usuario.profilepic = profilepic
+        if pronome: db_usuario.pronome = pronome
         db.commit()
         db.refresh(db_usuario)
     return db_usuario

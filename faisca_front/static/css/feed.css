@@ -70,6 +70,16 @@ form textarea:focus {
 }
 
 /* Estilo das postagens */
+
+.view-mode a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.view-mode a:hover{
+    color: #8e44ad;
+}
+
 .postagens-lista {
     margin-top: 20px;
 }

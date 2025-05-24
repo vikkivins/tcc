@@ -5,8 +5,6 @@ import os
 
 perfil_bp = Blueprint('perfil', __name__)
 
-# TODO: Adicionar o redirecionamento para a pagina do livro na exibição de livros do usuário
-
 @perfil_bp.route('/')
 @perfil_bp.route('/<username>')
 def perfil(username=None):
@@ -41,7 +39,8 @@ def perfil(username=None):
                 'username': profile_data.get('username', ''),
                 'nome': profile_data.get('nome', ''),
                 'bio': profile_data.get('bio', ''),
-                'profilepic': profile_data.get('profilepic', '')
+                'pronome': profile_data.get('pronome', ''),
+                'profilepic': profile_data.get('profilepic')
             }
             livros_data = profile_data.get('livros', [])
             is_own_profile = profile_data.get('is_own_profile', False)
@@ -76,6 +75,7 @@ def perfil(username=None):
         'username': user_data.get('username', username),
         'nome': user_data.get('nome', ''),
         'bio': user_data.get('bio', ''),
+        'pronome': user_data.get('pronome', ''),
         'profile_pic': user_data.get('profilepic', ''),
         'livros': livros_data if isinstance(livros_data, list) else [],
         'postagens': postagens_data if isinstance(postagens_data, list) else [],
