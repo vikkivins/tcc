@@ -15,7 +15,7 @@ body {
     margin-bottom: 50px;
 }
 
-/* Seção da capa com linha divisória */
+/* Seção da capa com linha divisória*/
 .capa-secao {
     position: relative;
     height: 320px;
@@ -26,7 +26,7 @@ body {
 }
 
 /* Linha divisória horizontal */
-.linha-divisoria {
+/*.linha-divisoria {
     position: absolute;
     top: 50%;
     left: 0;
@@ -34,9 +34,74 @@ body {
     height: 2px;
     background: linear-gradient(to right, #f5f0f9 0%, #8e44ad 25%, #8e44ad 75%, #f5f0f9 100%);
     z-index: 1;
+}*/
+
+.capa-livro {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Capa do livro */
+.capa-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.capa-image, .capa-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-align: center;
+}
+
+.capa-image {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.capa-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+    color: white;
+}
+
+.capa-container:hover .capa-overlay {
+    opacity: 1;
+}
+
+.camera-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.overlay-text {
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Capa do livro
 .capa-livro {
     position: relative;
     z-index: 2;
@@ -56,7 +121,7 @@ body {
     padding: 15px;
     font-weight: bold;
     color: #4a0e4e;
-}
+} */
 
 /* Informações do livro */
 .livro-info {

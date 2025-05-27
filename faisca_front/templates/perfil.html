@@ -192,7 +192,7 @@
                     {% if is_own_profile %}
                         Minhas Obras
                     {% else %}
-                        Obras Públicas de {{ nome or username }}
+                        Obras Públicas de {{ username }}
                     {% endif %}
                 </h2>
                 {% if livros %}
@@ -201,17 +201,26 @@
                     <div class="book-carousel">
                         {% for livro in livros %}
                         <a href="{{ url_for('livros.visualizar_livro', livro_id=livro.id) }}" class="book-item">
+                            <!-- Capa do livro -->
+                            <div class="book-cover">
+                                {% if livro.capalivro %}
+                                    <img src="{{ url_for('static', filename=livro.capalivro) }}" alt="Capa do livro {{ livro.titulolivro }}" class="book-cover-img">
+                                {% else %}
+                                    <div class="book-cover-placeholder">
+                                        <span class="book-title-placeholder">{{ livro.titulolivro or 'Título não informado' }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Conteúdo do livro -->
                             <div class="book-content">
                                 <span class="book-name">{{ livro.titulolivro or 'Título não informado' }}</span>
-                                <p class="book-description">{{ livro.descricaolivro or 'Sem descrição disponível' }}</p>
-                                <div class="autor-info">
-                                    <span class="autor-username">{{ nome or username or 'Autor' }}</span>
-                                </div>
-                                <small class="data-criacao">Criado em: {{ livro.datacriacao or 'Data não disponível' }}</small>
-                                {% if not is_own_profile %}
+                                {% if is_own_profile %}
+                                {% if livro.publico is true %}
                                 <div class="public-badge" style="background: #4CAF50; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem; margin-top: 5px; display: inline-block;">
                                     PÚBLICO
                                 </div>
+                                {% endif %}
                                 {% endif %}
                             </div>
                         </a>

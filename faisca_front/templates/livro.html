@@ -10,8 +10,24 @@
     <div class="capa-secao">
         <div class="linha-divisoria"></div>
         <div class="capa-livro">
-            <div class="capa-placeholder">
-                <span>{{ livro.titulolivro }}</span>
+            <div class="capa-container">
+                {% if livro.capalivro %}
+                    <img src="{{ url_for('static', filename=livro.capalivro) }}" alt="Capa do livro" class="capa-img">
+                {% else %}
+                    <div class="capa-image">
+                        <span>{{ livro.titulolivro }}</span>
+                    </div>
+                {% endif %}
+                
+                {% if eh_autor %}
+                <form action="{{ url_for('livros.upload_book_cover', livro_id=livro.id) }}" method="POST" enctype="multipart/form-data">
+                    <label for="bookCoverUpload" class="capa-overlay">
+                        <div class="camera-icon"><i class="bi bi-camera-fill"></i></div>
+                        <div class="overlay-text">Atualizar capa do livro</div>
+                    </label>
+                    <input type="file" id="bookCoverUpload" name="file" accept="image/*" onchange="this.form.submit()" style="display: none;">
+                </form>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -104,4 +120,5 @@
         {% endif %}
     {% endif %}
 </div>
+
 {% endblock %}

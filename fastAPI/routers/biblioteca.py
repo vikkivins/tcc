@@ -57,6 +57,7 @@ def get_minha_biblioteca(
     for livro, autor, data_adicao in biblioteca:
         response.append(BibliotecaLivroResponse(
             id=livro.id,
+            capalivro=livro.capalivro,
             titulolivro=livro.titulolivro,
             descricaolivro=livro.descricaolivro,
             datacriacao=livro.datacriacao,

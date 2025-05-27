@@ -15,15 +15,23 @@
             {% if livros %}
                 {% for item in livros %}
                 <a href="{{ url_for('livros.visualizar_livro', livro_id=item.livro.id) }}" class="book-item">
+                    <!-- Capa do livro -->
+                    <div class="book-cover">
+                        {% if item.livro.capalivro %}
+                            <img src="{{ url_for('static', filename=item.livro.capalivro) }}" alt="Capa do livro {{ item.livro.titulolivro }}" class="book-cover-img">
+                        {% else %}
+                            <div class="book-cover-placeholder">
+                                <span class="book-title-placeholder">{{ item.livro.titulolivro or 'Título não informado' }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Conteúdo do livro -->
                     <div class="book-content">
-                        <span class="book-name">{{ item.livro.titulolivro }}</span>
-                        <p class="book-description">{{ item.livro.descricaolivro }}</p>
+                        <span class="book-name">{{ item.livro.titulolivro or 'Título não informado' }}</span>
                         <div class="autor-info">
                             <span class="autor-username">{{ item.autor.username }}</span>
                         </div>
-                        {% if item.livro.datacriacao %}
-                            <small class="data-criacao">Criado em: {{ item.livro.datacriacao }}</small>
-                        {% endif %}
                     </div>
                 </a>
                 {% endfor %}
@@ -35,24 +43,24 @@
     </div>
 </div>
 
-    {% block extra_js %}
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Carousel functionality
-        const carouselContainer = document.querySelector('.book-carousel-container');
-        const carousel = carouselContainer.querySelector('.book-carousel');
-        const prevButton = carouselContainer.querySelector('.carousel-button.prev');
-        const nextButton = carouselContainer.querySelector('.carousel-button.next');
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Carousel functionality
+    const carouselContainer = document.querySelector('.book-carousel-container');
+    const carousel = carouselContainer.querySelector('.book-carousel');
+    const prevButton = carouselContainer.querySelector('.carousel-button.prev');
+    const nextButton = carouselContainer.querySelector('.carousel-button.next');
 
-        prevButton.addEventListener('click', () => {
-            carousel.scrollBy({ left: -200, behavior: 'smooth' });
-        });
-
-        nextButton.addEventListener('click', () => {
-            carousel.scrollBy({ left: 200, behavior: 'smooth' });
-        });
+    prevButton.addEventListener('click', () => {
+        carousel.scrollBy({ left: -200, behavior: 'smooth' });
     });
-    </script>
-    {% endblock %}
+
+    nextButton.addEventListener('click', () => {
+        carousel.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+});
+</script>
+{% endblock %}
 
 {% endblock %}

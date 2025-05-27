@@ -15,6 +15,7 @@ class BibliotecaResponse(BaseModel):
 class BibliotecaLivroResponse(BaseModel):
     id: int
     titulolivro: str
+    capalivro: str
     descricaolivro: str
     datacriacao: datetime
     data_adicao: datetime

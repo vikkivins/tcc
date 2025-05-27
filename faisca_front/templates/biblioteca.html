@@ -18,30 +18,32 @@
         <div class="book-carousel">
             {% if biblioteca_livros %}
                 {% for livro in biblioteca_livros %}
-                <div class="book-item" data-livro-id="{{ livro.id }}">
-                    <div class="book-content">
-                        <span class="book-name">{{ livro.titulolivro }}</span>
-                        <p class="book-description">{{ livro.descricaolivro }}</p>
-                        <div class="autor-info">
-                            <span class="autor-username">por {{ livro.autor.username }}</span>
+                    <a href="{{ url_for('livros.visualizar_livro', livro_id=livro.id) }}" class="book-item">
+                        <!-- Capa do livro -->
+                        <div class="book-cover">
+                            {% if livro.capalivro %}
+                                <img src="{{ url_for('static', filename=livro.capalivro) }}" alt="Capa do livro {{ livro.titulolivro }}" class="book-cover-img">
+                            {% else %}
+                                <div class="book-cover-placeholder">
+                                    <span class="book-title-placeholder">{{ livro.titulolivro or 'Título não informado' }}</span>
+                                </div>
+                            {% endif %}
                         </div>
-                        {% if livro.data_adicao %}
-                            <small class="data-adicao">Adicionado em: {{ livro.data_adicao }}</small>
-                        {% endif %}
-                        {% if livro.datacriacao %}
-                            <small class="data-criacao">Criado em: {{ livro.datacriacao }}</small>
-                        {% endif %}
                         
-                        <div class="book-actions">
-                            <a href="{{ url_for('livros.visualizar_livro', livro_id=livro.id) }}" class="btn-visualizar">
-                                Ver Livro
-                            </a>
-                            <form action="{{ url_for('biblioteca.remover_livro', livro_id=livro.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este livro da sua biblioteca?');" class="form-remover">
-                                <button type="submit" class="btn-remover">Remover</button>
+                        <!-- Conteúdo do livro -->
+                        <div class="book-content">
+                            <span class="book-name">{{ livro.titulolivro or 'Título não informado' }}</span>
+                            <div class="autor-info">
+                                <span class="autor-username">{{ livro.autor.username }}</span>
+                            </div>
+                            <!-- Botão remover no hover -->
+                            <form action="{{ url_for('biblioteca.remover_livro', livro_id=livro.id) }}" method="POST" 
+                                onsubmit="return confirm('Remover este livro da biblioteca?');" 
+                                class="form-remover" onclick="event.stopPropagation();">
+                                <button type="submit" class="btn-remover">Remover da Biblioteca</button>
                             </form>
                         </div>
-                    </div>
-                </div>
+                    </a>
                 {% endfor %}
             {% else %}
                 <p class="no-books">Sua biblioteca está vazia. Explore livros públicos para adicionar à sua biblioteca!</p>
