@@ -216,11 +216,15 @@
                             <div class="book-content">
                                 <span class="book-name">{{ livro.titulolivro or 'Título não informado' }}</span>
                                 {% if is_own_profile %}
-                                {% if livro.publico is true %}
-                                <div class="public-badge" style="background: #4CAF50; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem; margin-top: 5px; display: inline-block;">
-                                    PÚBLICO
-                                </div>
-                                {% endif %}
+                                    {% if livro.publico is true %}
+                                    <div class="public-badge" style="background: #4CAF50; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem; margin-top: 5px; display: inline-block;">
+                                        PÚBLICO
+                                    </div>
+                                    {% else %}
+                                    <div class="public-badge" style="background: #575d57; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem; margin-top: 5px; display: inline-block;">
+                                        RASCUNHO
+                                    </div>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </a>
