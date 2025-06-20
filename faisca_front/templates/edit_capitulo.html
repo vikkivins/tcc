@@ -22,18 +22,6 @@
             <label for="titulocapitulo">Título:</label>
             <input type="text" id="titulocapitulo" name="titulocapitulo" value="{{ capitulo.titulocapitulo }}" required>
         </div>
-        
-        <div class="form-group">
-            <label for="capa">Alterar Capa (opcional):</label>
-            <input type="file" id="capa" name="capa" accept="image/*">
-            {% if capitulo.capacapitulo %}
-                <div class="current-cover">
-                    <span>Capa atual:</span>
-                    <img src="{{ capitulo.capacapitulo }}" alt="Capa atual">
-                    <a href="{{ capitulo.capacapitulo }}" target="_blank" class="view-full">Visualizar em tamanho real</a>
-                </div>
-            {% endif %}
-        </div>
 
         <div class="form-group">
             <label for="conteudocapitulo">Conteúdo do Capítulo:</label>

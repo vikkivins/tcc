@@ -75,38 +75,67 @@
                 <button class="edit-button">Editar disponibilidade</button>
                 {% endif %}
             </div>
+            <div class="ideas-section">
+                <h3 class="section-title">Ideias</h3>
+                <div class="ideas-list">
+                    {% if is_own_profile %}
+                        {% if ideias %}
+                            {% for ideia in ideias[:3] %}
+                            <a href="{{ url_for('ideias.visualizar_ideia', ideia_id=ideia.id) }}" style="text-decoration: none;">
+                            <div class="idea-item">
+                                <div class="idea-title">{{ ideia.tituloideia[:30] }}{% if ideia.tituloideia|length > 30 %}...{% endif %}</div>
+                                <div class="idea-description">{{ ideia.conteudoideia[:60] }}{% if ideia.conteudoideia|length > 60 %}...{% endif %}</div>
+                            </div></a>
+                            {% endfor %}
+                        {% else %}
+                            <p style="color: rgba(255, 255, 255, 0.7); font-style: italic; text-align: center;">
+                                    Você ainda não criou ideias.
+                            </p>
+                            <!-- <button class="edit-button">Editar ideias</button>
+                            <a href="{{ url_for('ideias.editar_ideia', ideia_id=ideia.id) }}" class="edit-button">Editar ideias</a> -->
+                        {% endif %}
+                    {% endif %}
+                </div>
+                
+            </div>
         </div>
         <div class="div3">
-            <h2 class="section-heading">Últimas Atualizações</h2>
-            <div class="updates-container">
-                {% if postagens %}
-                    {% for postagem in postagens[:2] %}
-                    <div class="update-card">
-                        <div class="card-thumbnail">
-                            <i class="bi bi-person-circle"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-title">Postagem do perfil</div>
-                            <div class="card-description">{{ postagem.conteudopostagem[:80] }}{% if postagem.conteudopostagem|length > 80 %}...{% endif %}</div>
-                            <div class="card-tag">
-                                <div class="tag-dot orange-dot"></div>
-                                <span>Postagem</span>
+            <!-- Metade superior - Últimas Atualizações -->
+            <div class="div3-upper">
+                <h2 class="section-heading">Últimas Atualizações</h2>
+                <div class="updates-container">
+                    {% if postagens %}
+                        {% for postagem in postagens[:2] %}
+                        <div class="update-card">
+                            <div class="card-thumbnail">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-title">Postagem do perfil</div>
+                                <div class="card-description">{{ postagem.conteudopostagem[:80] }}{% if postagem.conteudopostagem|length > 80 %}...{% endif %}</div>
+                                <div class="card-tag">
+                                    <div class="tag-dot orange-dot"></div>
+                                    <span>Postagem</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {% endfor %}
-                {% elif is_own_profile %}
-                    <div class="no-updates-message">
-                        <p style="color: #666; font-style: italic; text-align: center; width: 100%;">
-                            Você ainda não fez postagens.
-                        </p>
-                    </div>
-                {% else %}
-                    <div class="no-updates-message">
-                        <p>Este usuário ainda não fez postagens.</p>
-                    </div>
-                {% endif %}
+                        {% endfor %}
+                    {% elif is_own_profile %}
+                        <div class="no-updates-message">
+                            <p style="color: #666; font-style: italic; text-align: center; width: 100%;">
+                                Você ainda não fez postagens.
+                            </p>
+                        </div>
+                    {% else %}
+                        <div class="no-updates-message">
+                            <p>Este usuário ainda não fez postagens.</p>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
+
+            <!-- Metade inferior - Ideias Criadas -->
+            
         </div>
         <div class="div4">
             <div class="writing-calendar">

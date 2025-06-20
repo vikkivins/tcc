@@ -18,6 +18,11 @@ def biblioteca():
             f"{API_BASE_URL}/biblioteca/",
             headers=headers
         )
+
+        if response.status_code == 401:
+            session.pop('access_token', None)
+            flash('Sessão expirada. Faça login novamente.', 'error')
+            return redirect(url_for('auth.login'))
         
         if response.status_code == 200:
             biblioteca_livros = response.json()

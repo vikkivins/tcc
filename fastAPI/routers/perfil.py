@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.orm import Session
 from database import get_db
 from security import get_current_user
-from model import Usuario, Livro
+from model import Usuario, Livro, Ideia
 from schemas.livroschemas import LivroResponse
-from schemas.usuarioschemas import AutorResumoResponse  # Assumindo que existe
+from schemas.ideiaschemas import IdeiaResponse
 from typing import Optional, List
 import os
 from datetime import datetime
@@ -49,7 +49,13 @@ async def get_user_profile(
     
     # Converter livros para response model
     livros_response = [LivroResponse.model_validate(livro.__dict__) for livro in livros]
+    # Ideias (somente se for o próprio perfil)
     
+    ideias_response = []
+    if is_own_profile:
+        ideias = db.query(Ideia).filter(Ideia.usuario_id == user.id).all()
+        ideias_response = [IdeiaResponse.model_validate(ideia.__dict__) for ideia in ideias]
+
     return {
         "username": user.username,
         "profilepic": user.profilepic,
@@ -57,7 +63,8 @@ async def get_user_profile(
         "bio": user.bio,
         "pronome": user.pronome,
         "is_own_profile": is_own_profile,
-        "livros": livros_response
+        "livros": livros_response,
+        "ideias": ideias_response  # lista vazia se não for o próprio perfil
     }
 
 @router.post("/upload_profile_pic")

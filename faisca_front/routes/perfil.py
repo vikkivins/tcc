@@ -20,6 +20,7 @@ def perfil(username=None):
     # Inicializar variáveis padrão
     user_data = {}
     livros_data = []
+    ideias_data= []
     postagens_data = []
     error_message = None
     
@@ -43,6 +44,7 @@ def perfil(username=None):
                 'profilepic': profile_data.get('profilepic')
             }
             livros_data = profile_data.get('livros', [])
+            ideias_data = profile_data.get('ideias', [])
             is_own_profile = profile_data.get('is_own_profile', False)
             
             try:
@@ -78,6 +80,7 @@ def perfil(username=None):
         'pronome': user_data.get('pronome', ''),
         'profile_pic': user_data.get('profilepic', ''),
         'livros': livros_data if isinstance(livros_data, list) else [],
+        'ideias': ideias_data if isinstance(ideias_data, list) else [],
         'postagens': postagens_data if isinstance(postagens_data, list) else [],
         'error': error_message,
         'is_own_profile': locals().get('is_own_profile', False),

@@ -5,6 +5,8 @@ from config import API_BASE_URL
 
 auth_bp = Blueprint('auth', __name__)
 
+#TODO: Adicionar a parte de senhas seguras. Letras maiúsculas e minúsculas, qtd de caracteres, um especial etc
+
 @auth_bp.route('/')
 def index():
     if 'access_token' in session:

@@ -498,12 +498,7 @@ body {
 
 .overlay-text {
     font-size: min(3vw, 16px);
-    padding: 0 10px;
-    width: 80%;
-    text-align: center;
-}
-
-.accent-circle {
+    ent-circle {
     width: min(20%, 40px);
     height: min(20%, 40px);
     border-radius: 50%;
@@ -620,21 +615,75 @@ body {
 
 .badge-text, .availability-text {
     font-size: 0.9rem;
+}padding: 0 10px;
+    width: 80%;
+    text-align: center;
 }
 
-/* Estilos para a div3 e os cards de atualização */
+/* Nova seção de Ideias */
+        .ideas-section {
+            margin-top: 20px;
+        }
+
+        .ideas-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .idea-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            padding: 8px 10px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+            border-left: 3px solid #B8FF33;
+        }
+
+        .idea-title {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .idea-description {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.3;
+        }
+
+/* Estilos para a div3 dividida */
 .div3 {
     grid-column: 2;
     grid-row: 1;
     background-color: #B8FF33; /* verde limão */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
     color: purple;
+    padding: 0;
+    height: auto;
+    max-height: 400px; /* Aumentei a altura máxima para acomodar as duas seções */
+    border-radius: 8px;
+    overflow:hidden;
+}
+
+/* Metade superior - Últimas Atualizações */
+.div3-upper {
+    flex: 1;
     padding: 15px 20px;
-    height: auto; /* Deixa a altura ajustar-se ao conteúdo */
-    max-height: 180px; /* Limita a altura máxima */
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+   
+}
+
+/* Metade inferior - Ideias Criadas */
+.div3-lower {
+    flex: 1;
+    padding: 15px 20px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid #9AE02A; /* Linha divisória */
 }
 
 .section-heading {
@@ -644,26 +693,42 @@ body {
     color: #660066;
 }
 
-.updates-container {
+.updates-container, .ideas-container {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     width: 100%;
     overflow-x: auto;
+    flex: 1;
 }
 
-.update-card {
+.update-card, .idea-card {
     background-color: #f5f5f5;
     border-radius: 8px;
     padding: 10px;
     display: flex;
-    width: calc(50% - 8px);
-    min-width: 250px;
+    width: 47%;
+    height: fit;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer e Edge */
+    overflow-x: auto;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
+.updates-container::-webkit-scrollbar,
+.ideas-container::-webkit-scrollbar {
+display: none;
+    
+}
+
+.idea-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
 }
 
 .card-thumbnail {
-    width: 12%;
-    height: 100%;
+    width: 60px;
+    height: 80px;
     background-color: #9B69C6;
     border-radius: 4px;
     display: flex;
@@ -676,9 +741,14 @@ body {
     flex-shrink: 0;
 }
 
+.idea-thumbnail {
+    background-color: #4CAF50; /* Verde para ideias */
+}
+
 .card-content {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .card-title {
@@ -693,6 +763,7 @@ body {
     color: #666;
     margin-bottom: 10px;
     line-height: 1.4;
+    flex: 1;
 }
 
 .card-tag {
@@ -711,6 +782,26 @@ body {
 
 .orange-dot {
     background-color: #F5A623;
+}
+
+.green-dot {
+    background-color: #4CAF50; /* Verde para ideias */
+}
+
+.no-updates-message, .no-ideas-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+}
+
+.no-updates-message p, .no-ideas-message p {
+    color: #666;
+    font-style: italic;
+    margin: 0;
+    width: 100%;
 }
 
 /* Estilos para o calendário de escrita na div4 */
