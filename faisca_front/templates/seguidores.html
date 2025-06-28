@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Seguidores{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/seguidores.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="section-title">{{ titulo_pagina }}</h2>
+    <div class="followers-list">
+        {% for usuario in usuarios %}
+        <div class="follower-item">
+            <div class="profile-photo-small" style="background-image: url('{{ url_for('static', filename=usuario.profilepic) if usuario.profilepic else url_for('static', filename='uploads/perfil/default_profile.png') }}');"></div>
+            <span class="username"><a href="{{ url_for('perfil.perfil', username=usuario.username) }}">@{{ usuario.username }}</a></span>
+        </div>
+        {% else %}
+        <p style="color: #888; text-align: center;">Nenhum usuário encontrado.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

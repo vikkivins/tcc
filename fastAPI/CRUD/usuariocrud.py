@@ -73,3 +73,43 @@ def delete_usuario(db: Session, usuario_id: int):
         db.commit()
     return db_usuario
 
+def seguir_usuario(db: Session, follower_id: int, followed_id: int):
+    from model import Usuario, followers_association
+    if follower_id == followed_id:
+        raise HTTPException(status_code=400, detail="Você não pode seguir a si mesmo.")
+    follower = db.query(Usuario).filter(Usuario.id == follower_id).first()
+    followed = db.query(Usuario).filter(Usuario.id == followed_id).first()
+    if not follower or not followed:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado.")
+    if followed in follower.following:
+        raise HTTPException(status_code=400, detail="Usuário já seguido.")
+    follower.following.append(followed)
+    db.commit()
+    return {"msg": f"Usuário {follower.username} agora segue {followed.username}"}
+
+def deixar_de_seguir_usuario(db: Session, follower_id: int, followed_id: int):
+    from model import Usuario
+    follower = db.query(Usuario).filter(Usuario.id == follower_id).first()
+    followed = db.query(Usuario).filter(Usuario.id == followed_id).first()
+    if not follower or not followed:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado.")
+    if followed not in follower.following:
+        raise HTTPException(status_code=400, detail="Usuário não está sendo seguido.")
+    follower.following.remove(followed)
+    db.commit()
+    return {"msg": f"Usuário {follower.username} deixou de seguir {followed.username}"}
+
+def listar_seguidores(db: Session, usuario_id: int):
+    from model import Usuario
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado.")
+    return usuario.followers
+
+def listar_seguindo(db: Session, usuario_id: int):
+    from model import Usuario
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado.")
+    return usuario.following
+

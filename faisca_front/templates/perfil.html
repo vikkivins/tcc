@@ -25,7 +25,28 @@
                     </form>
                     {% endif %}
                 </div>
-                <div class="accent-circle"></div>
+                <div class="accent-circle"><!--<i class="bi bi-activity"></i> -->
+                    <div class="tooltip">
+                        <div class="tooltip-item">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/>
+                            </svg>
+                            <span>{{obras}} obras</span>
+                        </div>
+                        <div class="tooltip-item">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16c-.8 0-1.54.37-2 1l-3 4v5h2v-4.5l1.8-2.4.7 2.1V22h2z"/>
+                            </svg>
+                            <span>{{seguidores}} seguidores</span>
+                        </div>
+                        <div class="tooltip-item">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            <span>{{seguindo}} seguindo</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="div2">
@@ -35,6 +56,15 @@
                 <p class="user-description">{{ bio or 'Este usuário ainda não adicionou uma descrição.' }}</p>
                 {% if is_own_profile %}
                 <a href="{{ url_for('usuario.user_configuracoes') }}"><button class="edit-button">Editar perfil</button></a>
+                {% elif not is_own_profile and target_user_id %}
+                    <form method="post" style="display:inline;">
+                        {% if ja_segue %}
+                        <button type="submit" name="deixar_de_seguir_usuario" class="edit-button" style="background:#c62828;">Deixar de seguir</button>
+                        {% else %}
+                        <button type="submit" name="seguir_usuario" class="edit-button">Seguir usuário</button>
+                        {% endif %}
+                        <input type="hidden" name="target_user_id" value="{{ target_user_id }}">
+                    </form>
                 {% endif %}
             </div>
             
@@ -91,8 +121,6 @@
                             <p style="color: rgba(255, 255, 255, 0.7); font-style: italic; text-align: center;">
                                     Você ainda não criou ideias.
                             </p>
-                            <!-- <button class="edit-button">Editar ideias</button>
-                            <a href="{{ url_for('ideias.editar_ideia', ideia_id=ideia.id) }}" class="edit-button">Editar ideias</a> -->
                         {% endif %}
                     {% endif %}
                 </div>

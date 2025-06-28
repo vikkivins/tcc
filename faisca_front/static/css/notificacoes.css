@@ -1,0 +1,106 @@
+/* Notificações - Estilo do sino e modal */
+.notification-bell-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+}
+.notification-bell {
+    background: none;
+    border: none;
+    font-size: 1.7rem;
+    cursor: pointer;
+    position: relative;
+    color: #333;
+}
+.notification-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    background: #e74c3c;
+    border-radius: 50%;
+    display: inline-block;
+    border: 2px solid #fff;
+}
+.notification-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    right: 30px;
+    top: 70px;
+    width: 370px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+    padding: 0;
+    border: 1.5px solid #8e44ad;
+}
+.notification-modal-content {
+    padding: 24px 20px 10px 20px;
+}
+.notification-modal-content h4 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 1.25rem;
+    color: #4a0e4e;
+    text-align: center;
+    font-weight: 700;
+}
+#notification-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+#notification-list li {
+    background: #f8f4fa;
+    border-radius: 10px;
+    padding: 13px 16px;
+    box-shadow: 0 2px 5px rgba(142, 68, 173, 0.08);
+    border-left: 4px solid #8e44ad;
+    font-size: 0.99rem;
+    color: #4a0e4e;
+    display: flex;
+    align-items: center;
+    transition: box-shadow 0.2s;
+    border-bottom: none;
+}
+#notification-list li.nao-visualizada {
+    font-weight: bold;
+    background: #f7f7fa;
+}
+#notification-list li:last-child {
+    margin-bottom: 0;
+}
+#notification-list .mensagem {
+    flex: 1;
+}
+#notification-list .data {
+    color: #888;
+    font-size: 0.97rem;
+    margin-left: 12px;
+    white-space: nowrap;
+}
+.view-all-notifications {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #8e44ad;
+    text-decoration: underline;
+    font-size: 0.97rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+.close {
+    float: right;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #888;
+    cursor: pointer;
+}
+.close:hover {
+    color: #e74c3c;
+}

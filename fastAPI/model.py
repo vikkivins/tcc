@@ -23,6 +23,12 @@ biblioteca_association = Table(
     Column('data_adicao', DateTime, default=lambda: datetime.now(timezone.utc))
 )
 
+followers_association = Table(
+    'followers', Base.metadata,
+    Column('follower_id', Integer, ForeignKey('usuarios.id'), primary_key=True),
+    Column('followed_id', Integer, ForeignKey('usuarios.id'), primary_key=True)
+)
+
 class Usuario(Base):
     __tablename__ = 'usuarios'
     
@@ -44,6 +50,15 @@ class Usuario(Base):
     ideias = relationship("Ideia", back_populates="usuario")
     postagens = relationship("Postagem", back_populates="usuario")
     biblioteca = relationship("Livro", secondary=biblioteca_association, back_populates="seguidores")
+
+    # Usuários que este usuário segue
+    following = relationship(
+        "Usuario",
+        secondary=followers_association,
+        primaryjoin=id==followers_association.c.follower_id,
+        secondaryjoin=id==followers_association.c.followed_id,
+        backref="followers"
+    )
 
 class Livro(Base):
     __tablename__ = 'livros'
@@ -133,3 +148,16 @@ class Postagem(Base):
     usuario_id = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
 
     usuario = relationship("Usuario", back_populates="postagens")
+    
+class Notification(Base):
+    __tablename__ = 'notifications'
+    id = Column(Integer, primary_key=True, index=True)
+    usuario_id = Column(Integer, ForeignKey('usuarios.id'), nullable=False)  # Quem recebe a notificação
+    tipo = Column(String(30), nullable=False)  # Ex: novo_seguidor, nova_postagem, novo_livro, novo_capitulo
+    mensagem = Column(Text, nullable=False)
+    data_criacao = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    is_lida = Column(Boolean, default=False)
+    referencia_id = Column(Integer, nullable=True)  # ID do objeto relacionado
+    referencia_tipo = Column(String(30), nullable=True)  # Tipo do objeto relacionado
+
+    usuario = relationship('Usuario')

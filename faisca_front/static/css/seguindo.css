@@ -1,0 +1,84 @@
+/* seguindo.css - estilos para a página de usuários seguidos */
+
+.container {
+    max-width: 600px;
+    margin: 40px auto 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(142, 68, 173, 0.15);
+    padding: 32px 24px 24px 24px;
+}
+
+.section-title {
+    color: #4a0e4e;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.followers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.follower-item {
+    display: flex;
+    align-items: center;
+    background: #f8f4fa;
+    border-radius: 10px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 5px rgba(142, 68, 173, 0.1);
+    border-left: 4px solid #8e44ad;
+    transition: box-shadow 0.2s;
+}
+
+.follower-item:hover {
+    box-shadow: 0 4px 16px 0 rgba(142, 68, 173, 0.18);
+}
+
+.profile-photo-small {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    margin-right: 18px;
+    border: 2px solid #8e44ad;
+}
+
+.username {
+    font-size: 1.2rem;
+    color: #8e44ad;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.username a {
+    color: #8e44ad;
+    text-decoration: none;
+}
+
+.username a:hover {
+    color: #9b59b6;
+    text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+    .container {
+        padding: 16px 4px 16px 4px;
+    }
+    .follower-item {
+        padding: 10px 8px;
+    }
+    .profile-photo-small {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+    }
+    .username {
+        font-size: 1rem;
+    }
+}

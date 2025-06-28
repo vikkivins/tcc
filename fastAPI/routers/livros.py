@@ -1,4 +1,5 @@
 from CRUD.livrocrud import create_livro, get_livros, get_livro, update_livro, delete_livro
+from CRUD.notificacaocrud import criar_notificacao
 from schemas.livroschemas import LivroCreate, LivroUpdate, LivroResponse, LivroDetalhadoResponse
 from schemas.capituloschemas import CapituloResponse
 from schemas.ideiaschemas import IdeiaResponse
@@ -21,7 +22,21 @@ router = APIRouter(tags=['Livros'])
 def create_livro_endpoint(livro: LivroCreate, db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     livro_data = livro.model_dump()
     livro_data['usuario_id'] = current_user.id
-    return create_livro(db=db, **livro_data)
+    novo_livro = create_livro(db=db, **livro_data)
+    # Notificar seguidores se o livro for público
+    if hasattr(novo_livro, 'publico') and novo_livro.publico:
+        autor = db.query(Usuario).filter(Usuario.id == current_user.id).first()
+        if autor and hasattr(autor, 'followers'):
+            for seguidor in autor.followers:
+                criar_notificacao(
+                    db,
+                    usuario_id=seguidor.id,
+                    tipo="novo_livro",
+                    mensagem=f"{autor.username} publicou um novo livro: {novo_livro.titulolivro}",
+                    referencia_id=novo_livro.id,
+                    referencia_tipo="livro"
+                )
+    return novo_livro
 
 @router.get("/", response_model=List[LivroResponse])
 def read_livros_endpoint(db: Session = Depends(get_db)):

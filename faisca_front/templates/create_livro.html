@@ -18,10 +18,6 @@
         <div class="form-group">
             <textarea id="descricao" name="descricao" placeholder="Descrição do livro" required></textarea>
         </div>
-        <div class="form-group capa-upload">
-            <label for="capa" class="capa-label">Capa do livro (opcional)</label>
-            <input type="file" id="capa" name="capa" accept="image/*">
-        </div>
         <div class="form-group checkbox-container">
             <label class="checkbox-label">
                 <input type="checkbox" name="publico" {% if livro and livro.publico %}checked{% endif %}>

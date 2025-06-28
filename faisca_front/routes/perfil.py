@@ -5,18 +5,39 @@ import os
 
 perfil_bp = Blueprint('perfil', __name__)
 
-@perfil_bp.route('/')
-@perfil_bp.route('/<username>')
+@perfil_bp.route('/', methods=['GET', 'POST'])
+@perfil_bp.route('/<username>', methods=['GET', 'POST'])
 def perfil(username=None):
     headers = {"Authorization": f"Bearer {session.get('access_token', '')}"}
-    
     # Se não há username na URL, usar o próprio usuário logado
     if not username:
         username = session.get('username')
         if not username:
             flash('Você precisa estar logado para acessar o perfil', 'error')
             return redirect(url_for('auth.login'))
-    
+
+    usuario_logado_id = session.get('user_id')
+    is_own_profile = (username == session.get('username'))
+
+    # Lógica de seguir/deixar de seguir usuário
+    if request.method == 'POST':
+        try:
+            if 'seguir_usuario' in request.form:
+                response = requests.post(f"http://localhost:8000/usuarios/{usuario_logado_id}/seguir/{request.form['target_user_id']}")
+                if response.status_code == 200:
+                    flash('Agora você está seguindo este usuário!', 'success')
+                else:
+                    flash('Erro ao seguir usuário.', 'error')
+            elif 'deixar_de_seguir_usuario' in request.form:
+                response = requests.post(f"http://localhost:8000/usuarios/{usuario_logado_id}/deixar_de_seguir/{request.form['target_user_id']}")
+                if response.status_code == 200:
+                    flash('Você deixou de seguir este usuário.', 'success')
+                else:
+                    flash('Erro ao deixar de seguir usuário.', 'error')
+        except Exception as e:
+            flash(f'Erro ao processar ação: {str(e)}', 'error')
+        return redirect(url_for('perfil.perfil', username=username))
+
     # Inicializar variáveis padrão
     user_data = {}
     livros_data = []
@@ -86,6 +107,33 @@ def perfil(username=None):
         'is_own_profile': locals().get('is_own_profile', False),
         'viewing_username': username
     }
+    
+    # Buscar o id do usuário visualizado
+    target_user_id = None
+    if not is_own_profile:
+        try:
+            # Buscar pelo endpoint já existente: /usuarios/?username=...
+            response = requests.get(f"{API_BASE_URL}/usuarios", params={"username": username})
+            if response.status_code == 200:
+                usuarios = response.json()
+                if usuarios and isinstance(usuarios, list):
+                    target_user_id = usuarios[0].get('id')
+        except Exception:
+            pass
+
+    # Buscar se o usuário logado já segue o perfil visualizado
+    ja_segue = False
+    if not is_own_profile and usuario_logado_id and target_user_id:
+        try:
+            response = requests.get(f"{API_BASE_URL}/followers/{target_user_id}/seguidores")
+            if response.status_code == 200:
+                seguidores = response.json()
+                ja_segue = any(str(usuario_logado_id) == str(u.get('id')) for u in seguidores)
+        except Exception:
+            pass
+
+    template_data['ja_segue'] = ja_segue
+    template_data['target_user_id'] = target_user_id
     
     return render_template('perfil.html', **template_data)
 

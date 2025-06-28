@@ -1,6 +1,7 @@
 # capitulos.py (api)
 from CRUD.capitulocrud import create_capitulo, get_capitulos, get_capitulo, update_capitulo, delete_capitulo
 from CRUD.comentariocrud import create_comentario, get_comentarios, get_comentario, update_comentario, delete_comentario
+from CRUD.notificacaocrud import criar_notificacao
 from schemas.capituloschemas import CapituloCreate, CapituloUpdate, CapituloResponse
 from schemas.comentarioschemas import ComentarioResponse, ComentarioCreate, ComentarioUpdate
 from typing import List
@@ -21,7 +22,23 @@ router = APIRouter(prefix='/capitulos', tags=['capitulos'])
 def create_capitulo_endpoint(capitulo: CapituloCreate, db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     capitulo_data = capitulo.model_dump()
     capitulo_data['usuario_id'] = current_user.id
-    return create_capitulo(db=db, **capitulo_data)
+    novo_capitulo = create_capitulo(db=db, **capitulo_data)
+    # Notificar usuários que têm o livro na biblioteca
+    livro_id = capitulo_data.get('livro_id')
+    if livro_id:
+        from model import Livro
+        livro = db.query(Livro).filter(Livro.id == livro_id).first()
+        if livro and hasattr(livro, 'seguidores'):
+            for usuario in livro.seguidores:
+                criar_notificacao(
+                    db,
+                    usuario_id=usuario.id,
+                    tipo="novo_capitulo",
+                    mensagem=f"O livro '{livro.titulolivro}' recebeu um novo capítulo.",
+                    referencia_id=novo_capitulo.id,
+                    referencia_tipo="capitulo"
+                )
+    return novo_capitulo
 
 @router.get("/{capitulo_id}", response_model=CapituloResponse)
 def read_capitulo_endpoint(capitulo_id: int, db: Session = Depends(get_db)):

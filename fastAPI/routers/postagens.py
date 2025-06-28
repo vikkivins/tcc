@@ -7,6 +7,7 @@ from security import get_current_user
 from model import Usuario, Postagem
 from schemas.postagemschemas import PostagemCreate, PostagemUpdate, PostagemResponse
 from CRUD import postagemcrud
+from CRUD.notificacaocrud import criar_notificacao
 
 router = APIRouter(prefix="/postagens", tags=["Postagens"])
 
@@ -76,6 +77,18 @@ async def criar_postagem(
         usuario_id=current_user.id,
         postagem_id=postagem.postagem_id
     )
+    # Notificar seguidores do autor
+    autor = db.query(Usuario).filter(Usuario.id == current_user.id).first()
+    if autor and hasattr(autor, 'followers'):
+        for seguidor in autor.followers:
+            criar_notificacao(
+                db,
+                usuario_id=seguidor.id,
+                tipo="nova_postagem",
+                mensagem=f"{autor.username} fez uma nova postagem.",
+                referencia_id=nova_postagem.id,
+                referencia_tipo="postagem"
+            )
     return nova_postagem
 
 # ✏️ Atualizar uma postagem
