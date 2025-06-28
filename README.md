@@ -1,4 +1,4 @@
-# ✨ Faísca — Estímulo à Escrita Criativa com Design Persuasivo e Gamificação
+# ✨ Faísca — Ferramenta de Estímulo à Escrita Criativa Focada em Design Persuasivo
 
 **Faísca** é uma aplicação web desenvolvida como Trabalho de Conclusão de Curso (TCC) no Instituto Federal de São Paulo (IFSP), com o objetivo de incentivar a escrita criativa por meio de técnicas de design persuasivo e gamificação. A plataforma oferece um ambiente interativo e seguro onde escritores iniciantes ou experientes podem escrever, publicar, interagir e acompanhar sua evolução criativa.
 
