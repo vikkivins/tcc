@@ -12,9 +12,9 @@ from pathlib import Path
 from fastapi.responses import JSONResponse
 
 router = APIRouter(tags=['Perfil'])
-
+# Substitua os "..." pelo caminho do seu computador, onde está a área de trabalho
 # Configurações
-UPLOAD_FOLDER = "C:\\Users\\victo\\OneDrive\\Área de Trabalho\\tccspark\\faisca_front\\static\\uploads\\perfil" # TODO: colocar caminho relativo 
+UPLOAD_FOLDER = "C:\\...\\...\\...\\Área de Trabalho\\TCC\\faisca_front\\static\\uploads\\perfil" # TODO: colocar caminho relativo 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 MAX_FILE_SIZE = 2 * 1024 * 1024  # 2MB
 
